@@ -373,9 +373,9 @@ namespace ClientChat
         }
         public static List<Message> GetMessagesFromChat(int chat_id, int userId)
         {
+            List<Message> Output = new List<Message>();
             try
             {
-                List<Message> Output = new List<Message>();
                 var mes = MessengerEntities.GetContext().Messages.Where(p => p.ChatId == chat_id).ToList();
                 foreach (Messages mess in mes)
                 {
@@ -385,12 +385,13 @@ namespace ClientChat
             }
             catch
             {
-                return null;
+                return Output;
             }
         }
 
         public static List<Message> GetMessagesFromChat(int chat_id, int userId, int skip)
         {
+            List<Message> Output = new List<Message>();
             try
             {
                 List<Message> Output = new List<Message>();
@@ -403,7 +404,7 @@ namespace ClientChat
             }
             catch
             {
-                return null;
+                return Output;
             }
         }
     }

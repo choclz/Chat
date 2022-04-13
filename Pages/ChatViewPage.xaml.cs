@@ -40,6 +40,7 @@ namespace ClientChat.Pages
             {
                 int nowCount = messages.Count();
                 List<Message> Newmessages = Connector.GetMessagesFromChat(chatID, UserData.UserId, nowCount);
+                Console.WriteLine(1);
                 if (Newmessages.Count() != 0)
                 {
                     messages.AddRange(Newmessages);
