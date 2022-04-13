@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d8735639a7d140c2becf4d3de4c49961" Name="Diagram1">
+        <EntityTypeShape EntityType="MessengerModel.Auth" Width="1.5" PointX="5.25" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MessengerModel.Chats" Width="1.5" PointX="3" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MessengerModel.MessageFiles" Width="1.5" PointX="7.5" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MessengerModel.Messages" Width="1.5" PointX="5.25" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="MessengerModel.Requests" Width="1.5" PointX="8.25" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MessengerModel.Roles" Width="1.5" PointX="0.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MessengerModel.Task" Width="1.5" PointX="10.5" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MessengerModel.TaskFiles" Width="1.5" PointX="12.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MessengerModel.TaskStatus" Width="1.5" PointX="8.25" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MessengerModel.Users" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MessengerModel.UsersChats" Width="1.5" PointX="5.25" PointY="9.625" IsExpanded="true" />
+        <AssociationConnector Association="MessengerModel.FK_Auth_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="MessengerModel.FK_Messages_Chats" ManuallyRouted="false" />
+        <AssociationConnector Association="MessengerModel.FK_Requests_Chats" ManuallyRouted="false" />
+        <AssociationConnector Association="MessengerModel.FK_UsersChats_Chats" ManuallyRouted="false" />
+        <AssociationConnector Association="MessengerModel.FK_MessageFiles_Messages" ManuallyRouted="false" />
+        <AssociationConnector Association="MessengerModel.FK_Messages_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="MessengerModel.FK_Requests_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="MessengerModel.FK_Task_Requests" ManuallyRouted="false" />
+        <AssociationConnector Association="MessengerModel.FK_Users_Roles" ManuallyRouted="false" />
+        <AssociationConnector Association="MessengerModel.FK_Task_TaskStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="MessengerModel.FK_Task_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="MessengerModel.FK_TaskFiles_Task" ManuallyRouted="false" />
+        <AssociationConnector Association="MessengerModel.FK_UsersChats_Users" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
