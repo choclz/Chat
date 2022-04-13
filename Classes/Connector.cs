@@ -388,24 +388,5 @@ namespace ClientChat
                 return Output;
             }
         }
-
-        public static List<Message> GetMessagesFromChat(int chat_id, int userId, int skip)
-        {
-            List<Message> Output = new List<Message>();
-            try
-            {
-                List<Message> Output = new List<Message>();
-                var mes = MessengerEntities.GetContext().Messages.Where(p => p.ChatId == chat_id).Skip(skip).ToList();
-                foreach (Messages mess in mes)
-                {
-                    Output.Add(new Message(mess.id, mess.Users.nickname, mess.text, mess.date, mess.from == userId, mess.Users.Photo));
-                }
-                return Output;
-            }
-            catch
-            {
-                return Output;
-            }
-        }
     }
 }

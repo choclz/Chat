@@ -38,15 +38,14 @@ namespace ClientChat.Pages
         {
             while (true)
             {
+                await Task.Delay(3000);
                 int nowCount = messages.Count();
-                List<Message> Newmessages = Connector.GetMessagesFromChat(chatID, UserData.UserId, nowCount);
-                Console.WriteLine(1);
+                List<Message> Newmessages = Connector.GetMessagesFromChat(chatID, UserData.UserId).Skip(nowCount).ToList();
+                Console.WriteLine(nowCount + " " + Newmessages.Count());
                 if (Newmessages.Count() != 0)
                 {
-                    messages.AddRange(Newmessages);
-                    _currentLV.Items.Refresh();
+                    Console.WriteLine("bib");
                 }
-                await Task.Delay(3000);
             }
         }
 
