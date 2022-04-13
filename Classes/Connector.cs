@@ -345,11 +345,11 @@ namespace ClientChat
         }
         public static bool ChatExist(int chatId) => _context.Chats.Where(p => p.id == chatId).Count() > 0 ? true : false;
         public static bool CanSendMessage(int userID, int ChatsId) => _context.UsersChats.Where(p => p.ChatId == ChatsId && p.UserId == userID).Count() > 0 ? true : false;
-        public static int SendMessage(int chatId, string nickname, string text, bool hasFiles, out string Errors)
+        public static int SendMessage(int chatId, string nickname, string text, bool hasFiles, out string Errors, out int messageId)
         {
-            if (!ChatExist(chatId)) { Errors = "Чат не существует, проверьте исходные данные!"; return -1; }
-            if (!IsUserExist(nickname)) { Errors = "Пользователь - отправитель не существует!"; return -1; }
-            if (!CanSendMessage(GetUserId(nickname), chatId)) { Errors = "Пользователь не состоит в данном чате!"; return -1; }
+            if (!ChatExist(chatId)) { Errors = "Чат не существует, проверьте исходные данные!"; messageId = -1; return -1; }
+            if (!IsUserExist(nickname)) { Errors = "Пользователь - отправитель не существует!"; messageId = -1; return -1; }
+            if (!CanSendMessage(GetUserId(nickname), chatId)) { Errors = "Пользователь не состоит в данном чате!"; messageId = -1; return -1; }
             Messages msg = new Messages();
             msg.ChatId = chatId;
             msg.from = GetUserId(nickname);
@@ -361,21 +361,45 @@ namespace ClientChat
                 _context.Messages.Add(msg);
                 _context.SaveChanges();
                 Errors = "Ошибок не обнаружено, сообщение отправлено!";
-
+                messageId = msg.id;
                 return 1;
             }
             catch (Exception ex)
             {
                 Errors = "Ошибка регистрации нового сообщения - " + ex.Message;
+                messageId = -1;
                 return -1;
             }
         }
-        public static List<Messages> GetMessagesFromChat(int chat_id)
+        public static List<Message> GetMessagesFromChat(int chat_id, int userId)
         {
             try
             {
+                List<Message> Output = new List<Message>();
                 var mes = MessengerEntities.GetContext().Messages.Where(p => p.ChatId == chat_id).ToList();
-                return mes;
+                foreach (Messages mess in mes)
+                {
+                    Output.Add(new Message(mess.id, mess.Users.nickname + $"({mess.Users.FName} {mess.Users.SName})", mess.text, mess.date, mess.from == userId, mess.Users.Photo));   
+                }
+                return Output;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public static List<Message> GetMessagesFromChat(int chat_id, int userId, int skip)
+        {
+            try
+            {
+                List<Message> Output = new List<Message>();
+                var mes = MessengerEntities.GetContext().Messages.Where(p => p.ChatId == chat_id).Skip(skip).ToList();
+                foreach (Messages mess in mes)
+                {
+                    Output.Add(new Message(mess.id, mess.Users.nickname, mess.text, mess.date, mess.from == userId, mess.Users.Photo));
+                }
+                return Output;
             }
             catch
             {

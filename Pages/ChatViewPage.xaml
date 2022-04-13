@@ -25,18 +25,20 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Image Width="50" Grid.RowSpan="2" Stretch="UniformToFill" >
                             <Image.Source>
-                                <Binding Path="Users.avatar">
+                                <Binding Path="avatar">
                                     <Binding.TargetNullValue>
-                                        <Image Source="/Resources/NullAvatar.jpg" />
+                                        <ImageSource>/Resources/NullAvatar.jpg</ImageSource>
                                     </Binding.TargetNullValue>
                                 </Binding>
                             </Image.Source>
                         </Image>
                         <TextBlock Grid.Column="1" Name="messageSender" Text="{Binding Author}"></TextBlock>
                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Text}"></TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="1" FontSize="12" HorizontalAlignment="Right" Text="{Binding date}"></TextBlock>
                     </Grid>
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding IsAuthor}" Value="true">

@@ -28,18 +28,8 @@ namespace ClientChat.Pages
             InitializeComponent();
             messages.Clear();
             Chat_id.Items.Refresh();
-            var messageList = Connector.GetMessagesFromChat(chat.id);
+            messages = Connector.GetMessagesFromChat(chat.id, UserData.UserId);
             _currentChat = chat;
-            foreach (var t in messageList)
-            {
-                messages.Add(new Message(
-                    t.Users.nickname,
-                    t.text,
-                    t.date,
-                    t.from == 1003
-                    )
-                );
-            }
             Chat_id.ItemsSource = messages;
             MessageUpdater(chat.id, Chat_id);
         }
@@ -49,19 +39,10 @@ namespace ClientChat.Pages
             while (true)
             {
                 int nowCount = messages.Count();
-                var messageList = Connector.GetMessagesFromChat(chatID).Skip(nowCount);
-                if (messageList.Count() != 0)
+                List<Message> Newmessages = Connector.GetMessagesFromChat(chatID, UserData.UserId, nowCount);
+                if (Newmessages.Count() != 0)
                 {
-                    foreach (var t in messageList)
-                    {
-                        messages.Add(new Message(
-                            t.Users.nickname,
-                            t.text,
-                            t.date,
-                            t.from == 1003
-                            )
-                        );
-                    }
+                    messages.AddRange(Newmessages);
                     _currentLV.Items.Refresh();
                 }
                 await Task.Delay(3000);
@@ -70,11 +51,11 @@ namespace ClientChat.Pages
 
         private void SendBtn_Click(object sender, RoutedEventArgs e)
         {
-            messages.Add(new Message(UserData.UserLogin, NewMessage.Text, DateTime.Now, true));
             string Err;
+            int id = -1;
             UserData.UserLogin = "Choclz4";
-            Connector.SendMessage(_currentChat.id, UserData.UserLogin, NewMessage.Text, false, out Err);
-            Connector._context.ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
+            Connector.SendMessage(_currentChat.id, UserData.UserLogin, NewMessage.Text, false, out Err, out id);
+            messages.Add(new Message(id,UserData.UserLogin, NewMessage.Text, DateTime.Now, true));
             Chat_id.Items.Refresh();
         }
     }
