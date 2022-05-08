@@ -25,4 +25,4 @@ namespace ClientChat
             IsAuthor = isAuthor;
         }
     }
-}
+    }

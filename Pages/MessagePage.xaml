@@ -17,28 +17,25 @@
             <ColumnDefinition Width="170"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ListView x:Name="UsersList" MouseDoubleClick="UsersList_MouseDoubleClick" Grid.RowSpan="3" >
+        <ListView x:Name="UsersList" MouseDoubleClick="UsersList_MouseDoubleClick" Grid.RowSpan="2" >
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="50"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"></RowDefinition>
                             <RowDefinition Height="50"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="{Binding nickname}" Grid.Row="0" Grid.Column="1"></TextBlock>
-                        <TextBlock Text="{Binding id}" Grid.Row="1" Grid.Column="1"></TextBlock>
+                        <TextBlock Text="{Binding name}" Grid.Row="0"></TextBlock>
+                        <TextBlock Text="{Binding TextType}" Grid.Row="1"></TextBlock>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" Grid.Column="1" Grid.RowSpan="3" Background="Bisque">
-            Для начала работы, пожалуйста, выберите чат.
-        </Label>
-        <Frame Name="ChatView" Grid.Column="1" Grid.RowSpan="3">
+        <Frame Name="ChatView" Grid.Column="1" Grid.RowSpan="3" NavigationUIVisibility="Hidden" JournalOwnership="OwnsJournal">
         </Frame>
+        <Button x:Name="AddChatBtn" Content="Новый чат" Grid.Row="2" Click="AddChatBtn_Click"></Button>
     </Grid>
 </Page>

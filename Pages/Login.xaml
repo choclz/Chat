@@ -5,12 +5,13 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ClientChat"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      Height="450" Width="800"
       Title="Login">
 
     <Grid>
-        <TextBox x:Name="userLogin" Text="kiki" Width="200"  Height="30" Margin="296,167,296,222"/>
-        <TextBox x:Name="userPassword" Text="123check!" Width="200" Height="30" Margin="296,202,296,187"/>
+        <TextBox x:Name="userLogin" Text="tikhonov_" Width="200"  Height="30" Margin="296,167,296,222"/>
+        
+        <PasswordBox x:Name="userPassword" Width="200" Height="30" Margin="296,202,296,187"/>
         <Button x:Name="AuthUser" Content="Авторизация" Margin="0,353,0,48" Click="AuthUser_Click"/>
         <Button x:Name="CreateUser" Content="Еще не зарегистрированы?" Margin="0,402,0,0" Click="CreateUser_Click"/>
         <Label Content="Авторизация в приложении" Margin="311,125,314,268" RenderTransformOrigin="0.085,0.795" Width="167" VerticalAlignment="Center" HorizontalAlignment="Center"/>

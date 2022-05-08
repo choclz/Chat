@@ -10,5 +10,11 @@ namespace ClientChat
     class Manager
     {
         public static Frame MainFrame { get; set; }
+        public static Frame MessagePart { get; set; }
+
+        public static void MessagePartBack()
+        {
+            MessagePart.GoBack();
+        }
     }
 }

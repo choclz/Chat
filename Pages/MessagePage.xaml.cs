@@ -22,11 +22,13 @@ namespace ClientChat
     /// </summary>
     public partial class MessagePage : Page
     {
+        List<Chats> MessageGroup = Connector.GetChats(UserData.UserId);
         public MessagePage()
         {
             InitializeComponent();
-            List<Chats> MessageGroup = Connector.GetChats(UserData.UserId);
-            UsersList.ItemsSource = Connector.GetChats(1003);
+            UsersList.ItemsSource = MessageGroup;
+            ChatView.Navigate(new Pages.VoidPage());
+            Manager.MessagePart = ChatView;
         }
 
         private void UsersList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -35,6 +37,10 @@ namespace ClientChat
             if (currentChat == null) return;
             ChatView.Navigate(new Pages.ChatViewPage(currentChat));
         }
-       
+
+        private void AddChatBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MessagePart.Navigate(new Pages.AddNewChat());
+        }
     }
 }

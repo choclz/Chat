@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClientChat"
         mc:Ignorable="d"
-        Title="Авторизация в приложении" Height="450" Width="800">
+        ResizeMode="CanMinimize"
+        Title="Бизнес-мессенджер для ИСПО" Height="480" Width="800">
     <Grid>
-        <Frame Name="MainFrame" Content="Frame" HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="792"/>
+        <Frame Name="MainFrame" NavigationUIVisibility="Hidden" Content="Frame" HorizontalAlignment="Left" Height="450" VerticalAlignment="Top" Width="800" Margin="0,0,-6,0"/>
     </Grid>
 </Window>

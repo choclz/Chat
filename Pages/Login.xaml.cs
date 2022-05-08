@@ -28,9 +28,9 @@ namespace ClientChat
         private void AuthUser_Click(object sender, RoutedEventArgs e)
         {
             if (String.IsNullOrWhiteSpace(userLogin.Text.ToLower()) ){ MessageBox.Show("Логин пользователя не задан!", "Ошибка авторизации"); return; }
-            if (String.IsNullOrWhiteSpace(userPassword.Text)) { MessageBox.Show("Пароль пользователя не задан!", "Ошибка авторизации"); return; }
+            if (String.IsNullOrWhiteSpace(userPassword.Password)) { MessageBox.Show("Пароль пользователя не задан!", "Ошибка авторизации"); return; }
             if (!Connector.IsUserExist(userLogin.Text)) { MessageBox.Show("Такого логина не существует в системе!", "Ошибка авторизации"); return; }
-            if (!Connector.CheckPass(userPassword.Text, userLogin.Text)) { MessageBox.Show("Пароль пользователя неверный!", "Ошибка авторизации"); return; }
+            if (!Connector.CheckPass(userPassword.Password, userLogin.Text)) { MessageBox.Show("Пароль пользователя неверный!", "Ошибка авторизации"); return; }
             UserData.UserLogin = userLogin.Text.ToLower();
             UserData.UserId = Connector.GetUserId(UserData.UserLogin);
             Manager.MainFrame.Navigate(new MessagePage());

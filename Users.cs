@@ -21,7 +21,7 @@ namespace ClientChat
             this.Messages = new HashSet<Messages>();
             this.Requests = new HashSet<Requests>();
             this.UsersChats = new HashSet<UsersChats>();
-            this.Tasks = new HashSet<Tasks>();
+            this.UserTask = new HashSet<UserTask>();
         }
     
         public int id { get; set; }
@@ -43,6 +43,6 @@ namespace ClientChat
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UsersChats> UsersChats { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tasks> Tasks { get; set; }
+        public virtual ICollection<UserTask> UserTask { get; set; }
     }
 }

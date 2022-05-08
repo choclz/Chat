@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Хранилище MessengerModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище MessengerModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Auth">
           <Key>
             <PropertyRef Name="id" />
@@ -47,11 +47,18 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="status" Type="bit" Nullable="false" />
+          <Property Name="status" Type="int" Nullable="false" />
           <Property Name="customer" Type="int" Nullable="false" />
           <Property Name="RequestFrom" Type="int" Nullable="false" />
           <Property Name="StartTime" Type="datetime" Nullable="false" />
           <Property Name="EndTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="RequestStatus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -59,6 +66,16 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="TaskFiles">
           <Key>
@@ -76,10 +93,8 @@
           <Property Name="ReqId" Type="int" Nullable="false" />
           <Property Name="TaskName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="varbinary" MaxLength="255" Nullable="false" />
-          <Property Name="status" Type="int" Nullable="false" />
-          <Property Name="executor" Type="int" Nullable="false" />
-          <Property Name="StartTime" Type="date" Nullable="false" />
-          <Property Name="EndTime" Type="date" />
+          <Property Name="StartTime" Type="datetime" Nullable="false" />
+          <Property Name="EndTime" Type="datetime" />
           <Property Name="NeedFile" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="TaskStatus">
@@ -88,7 +103,6 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="comment" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -110,6 +124,17 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="ChatId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserTask">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="TaskId" Type="int" Nullable="false" />
+          <Property Name="status" Type="int" Nullable="false" />
+          <Property Name="FileId" Type="int" />
+          <Property Name="Comment" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <Association Name="FK_Auth_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
@@ -171,6 +196,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Requests_RequestStatus">
+          <End Role="RequestStatus" Type="Self.RequestStatus" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestStatus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Requests_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
@@ -192,42 +229,6 @@
             </Principal>
             <Dependent Role="Tasks">
               <PropertyRef Name="ReqId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Task_TaskStatus">
-          <End Role="TaskStatus" Type="Self.TaskStatus" Multiplicity="1" />
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TaskStatus">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Tasks">
-              <PropertyRef Name="status" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Task_Users">
-          <End Role="Users" Type="Self.Users" Multiplicity="1" />
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Tasks">
-              <PropertyRef Name="executor" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TaskFiles_Task">
-          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1" />
-          <End Role="TaskFiles" Type="Self.TaskFiles" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tasks">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TaskFiles">
-              <PropertyRef Name="TaskId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -267,18 +268,69 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserTask_TaskFiles">
+          <End Role="TaskFiles" Type="Self.TaskFiles" Multiplicity="0..1" />
+          <End Role="UserTask" Type="Self.UserTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskFiles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserTask">
+              <PropertyRef Name="FileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTask_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1" />
+          <End Role="UserTask" Type="Self.UserTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserTask">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTask_TaskStatus">
+          <End Role="TaskStatus" Type="Self.TaskStatus" Multiplicity="1" />
+          <End Role="UserTask" Type="Self.UserTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskStatus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserTask">
+              <PropertyRef Name="status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTask_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserTask" Type="Self.UserTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserTask">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Хранилище MessengerModelContainer">
           <EntitySet Name="Auth" EntityType="Self.Auth" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Chats" EntityType="Self.Chats" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MessageFiles" EntityType="Self.MessageFiles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Messages" EntityType="Self.Messages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Requests" EntityType="Self.Requests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RequestStatus" EntityType="Self.RequestStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskFiles" EntityType="Self.TaskFiles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tasks" EntityType="Self.Tasks" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaskStatus" EntityType="Self.TaskStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UsersChats" EntityType="Self.UsersChats" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserTask" EntityType="Self.UserTask" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Auth_Users" Association="Self.FK_Auth_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Auth" EntitySet="Auth" />
@@ -299,6 +351,10 @@
             <End Role="Chats" EntitySet="Chats" />
             <End Role="Requests" EntitySet="Requests" />
           </AssociationSet>
+          <AssociationSet Name="FK_Requests_RequestStatus" Association="Self.FK_Requests_RequestStatus">
+            <End Role="RequestStatus" EntitySet="RequestStatus" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
           <AssociationSet Name="FK_Requests_Users" Association="Self.FK_Requests_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Requests" EntitySet="Requests" />
@@ -306,18 +362,6 @@
           <AssociationSet Name="FK_Task_Requests" Association="Self.FK_Task_Requests">
             <End Role="Requests" EntitySet="Requests" />
             <End Role="Tasks" EntitySet="Tasks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Task_TaskStatus" Association="Self.FK_Task_TaskStatus">
-            <End Role="TaskStatus" EntitySet="TaskStatus" />
-            <End Role="Tasks" EntitySet="Tasks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Task_Users" Association="Self.FK_Task_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Tasks" EntitySet="Tasks" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TaskFiles_Task" Association="Self.FK_TaskFiles_Task">
-            <End Role="Tasks" EntitySet="Tasks" />
-            <End Role="TaskFiles" EntitySet="TaskFiles" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
             <End Role="Roles" EntitySet="Roles" />
@@ -331,8 +375,25 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="UsersChats" EntitySet="UsersChats" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserTask_TaskFiles" Association="Self.FK_UserTask_TaskFiles">
+            <End Role="TaskFiles" EntitySet="TaskFiles" />
+            <End Role="UserTask" EntitySet="UserTask" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTask_Tasks" Association="Self.FK_UserTask_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="UserTask" EntitySet="UserTask" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTask_TaskStatus" Association="Self.FK_UserTask_TaskStatus">
+            <End Role="TaskStatus" EntitySet="TaskStatus" />
+            <End Role="UserTask" EntitySet="UserTask" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTask_Users" Association="Self.FK_UserTask_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UserTask" EntitySet="UserTask" />
+          </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MessengerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -386,14 +447,23 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="status" Type="Boolean" Nullable="false" />
+          <Property Name="status" Type="Int32" Nullable="false" />
           <Property Name="customer" Type="Int32" Nullable="false" />
           <Property Name="RequestFrom" Type="Int32" Nullable="false" />
           <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndTime" Type="DateTime" Precision="3" />
           <NavigationProperty Name="Chats" Relationship="Self.FK_Requests_Chats" FromRole="Requests" ToRole="Chats" />
+          <NavigationProperty Name="RequestStatus" Relationship="Self.FK_Requests_RequestStatus" FromRole="Requests" ToRole="RequestStatus" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Requests_Users" FromRole="Requests" ToRole="Users" />
-          <NavigationProperty Name="Tasks" Relationship="MessengerModel.FK_Task_Requests1" FromRole="Requests" ToRole="Tasks1" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK_Task_Requests" FromRole="Requests" ToRole="Tasks" />
+        </EntityType>
+        <EntityType Name="RequestStatus">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Requests" Relationship="Self.FK_Requests_RequestStatus" FromRole="RequestStatus" ToRole="Requests" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -403,6 +473,16 @@
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Users_Roles" FromRole="Roles" ToRole="Users" />
         </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
         <EntityType Name="TaskFiles">
           <Key>
             <PropertyRef Name="id" />
@@ -410,7 +490,21 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="File" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
           <Property Name="TaskId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Tasks" Relationship="MessengerModel.FK_TaskFiles_Task1" FromRole="TaskFiles" ToRole="Tasks1" />
+          <NavigationProperty Name="UserTask" Relationship="Self.FK_UserTask_TaskFiles" FromRole="TaskFiles" ToRole="UserTask" />
+        </EntityType>
+        <EntityType Name="Tasks">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ReqId" Type="Int32" Nullable="false" />
+          <Property Name="TaskName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="Binary" MaxLength="255" FixedLength="false" Nullable="false" />
+          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Precision="3" />
+          <Property Name="NeedFile" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Requests" Relationship="Self.FK_Task_Requests" FromRole="Tasks" ToRole="Requests" />
+          <NavigationProperty Name="UserTask" Relationship="Self.FK_UserTask_Tasks" FromRole="Tasks" ToRole="UserTask" />
         </EntityType>
         <EntityType Name="TaskStatus">
           <Key>
@@ -418,8 +512,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="comment" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Tasks" Relationship="MessengerModel.FK_Task_TaskStatus1" FromRole="TaskStatus" ToRole="Tasks1" />
+          <NavigationProperty Name="UserTask" Relationship="Self.FK_UserTask_TaskStatus" FromRole="TaskStatus" ToRole="UserTask" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -438,7 +531,7 @@
           <NavigationProperty Name="Requests" Relationship="Self.FK_Requests_Users" FromRole="Users" ToRole="Requests" />
           <NavigationProperty Name="Roles" Relationship="Self.FK_Users_Roles" FromRole="Users" ToRole="Roles" />
           <NavigationProperty Name="UsersChats" Relationship="Self.FK_UsersChats_Users" FromRole="Users" ToRole="UsersChats" />
-          <NavigationProperty Name="Tasks" Relationship="MessengerModel.FK_Task_Users1" FromRole="Users" ToRole="Tasks1" />
+          <NavigationProperty Name="UserTask" Relationship="Self.FK_UserTask_Users" FromRole="Users" ToRole="UserTask" />
         </EntityType>
         <EntityType Name="UsersChats">
           <Key>
@@ -449,6 +542,21 @@
           <Property Name="ChatId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Chats" Relationship="Self.FK_UsersChats_Chats" FromRole="UsersChats" ToRole="Chats" />
           <NavigationProperty Name="Users" Relationship="Self.FK_UsersChats_Users" FromRole="UsersChats" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="UserTask">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="TaskId" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <Property Name="FileId" Type="Int32" />
+          <Property Name="Comment" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TaskFiles" Relationship="Self.FK_UserTask_TaskFiles" FromRole="UserTask" ToRole="TaskFiles" />
+          <NavigationProperty Name="Tasks" Relationship="Self.FK_UserTask_Tasks" FromRole="UserTask" ToRole="Tasks" />
+          <NavigationProperty Name="TaskStatus" Relationship="Self.FK_UserTask_TaskStatus" FromRole="UserTask" ToRole="TaskStatus" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_UserTask_Users" FromRole="UserTask" ToRole="Users" />
         </EntityType>
         <Association Name="FK_Auth_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
@@ -522,6 +630,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Requests_RequestStatus">
+          <End Role="RequestStatus" Type="Self.RequestStatus" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestStatus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Requests_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
@@ -531,6 +651,18 @@
             </Principal>
             <Dependent Role="Requests">
               <PropertyRef Name="customer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Task_Requests">
+          <End Role="Requests" Type="Self.Requests" Multiplicity="1" />
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Requests">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Tasks">
+              <PropertyRef Name="ReqId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -546,6 +678,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserTask_TaskFiles">
+          <End Role="TaskFiles" Type="Self.TaskFiles" Multiplicity="0..1" />
+          <End Role="UserTask" Type="Self.UserTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskFiles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserTask">
+              <PropertyRef Name="FileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTask_Tasks">
+          <End Role="Tasks" Type="Self.Tasks" Multiplicity="1" />
+          <End Role="UserTask" Type="Self.UserTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tasks">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserTask">
+              <PropertyRef Name="TaskId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTask_TaskStatus">
+          <End Role="TaskStatus" Type="Self.TaskStatus" Multiplicity="1" />
+          <End Role="UserTask" Type="Self.UserTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TaskStatus">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserTask">
+              <PropertyRef Name="status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UsersChats_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
           <End Role="UsersChats" Type="Self.UsersChats" Multiplicity="*" />
@@ -558,17 +726,33 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserTask_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UserTask" Type="Self.UserTask" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="UserTask">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="MessengerEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Auth" EntityType="Self.Auth" />
           <EntitySet Name="Chats" EntityType="Self.Chats" />
           <EntitySet Name="MessageFiles" EntityType="Self.MessageFiles" />
           <EntitySet Name="Messages" EntityType="Self.Messages" />
           <EntitySet Name="Requests" EntityType="Self.Requests" />
+          <EntitySet Name="RequestStatus" EntityType="Self.RequestStatus" />
           <EntitySet Name="Roles" EntityType="Self.Roles" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="TaskFiles" EntityType="Self.TaskFiles" />
+          <EntitySet Name="Tasks" EntityType="Self.Tasks" />
           <EntitySet Name="TaskStatus" EntityType="Self.TaskStatus" />
           <EntitySet Name="Users" EntityType="Self.Users" />
           <EntitySet Name="UsersChats" EntityType="Self.UsersChats" />
+          <EntitySet Name="UserTask" EntityType="Self.UserTask" />
           <AssociationSet Name="FK_Auth_Users" Association="Self.FK_Auth_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Auth" EntitySet="Auth" />
@@ -593,102 +777,43 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="Messages" EntitySet="Messages" />
           </AssociationSet>
+          <AssociationSet Name="FK_Requests_RequestStatus" Association="Self.FK_Requests_RequestStatus">
+            <End Role="RequestStatus" EntitySet="RequestStatus" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
           <AssociationSet Name="FK_Requests_Users" Association="Self.FK_Requests_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Task_Requests" Association="Self.FK_Task_Requests">
+            <End Role="Requests" EntitySet="Requests" />
+            <End Role="Tasks" EntitySet="Tasks" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserTask_TaskFiles" Association="Self.FK_UserTask_TaskFiles">
+            <End Role="TaskFiles" EntitySet="TaskFiles" />
+            <End Role="UserTask" EntitySet="UserTask" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTask_Tasks" Association="Self.FK_UserTask_Tasks">
+            <End Role="Tasks" EntitySet="Tasks" />
+            <End Role="UserTask" EntitySet="UserTask" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTask_TaskStatus" Association="Self.FK_UserTask_TaskStatus">
+            <End Role="TaskStatus" EntitySet="TaskStatus" />
+            <End Role="UserTask" EntitySet="UserTask" />
+          </AssociationSet>
           <AssociationSet Name="FK_UsersChats_Users" Association="Self.FK_UsersChats_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="UsersChats" EntitySet="UsersChats" />
           </AssociationSet>
-          <EntitySet Name="TasksSet" EntityType="MessengerModel.Tasks" />
-          <AssociationSet Name="FK_Task_Requests1" Association="MessengerModel.FK_Task_Requests1">
-            <End Role="Requests" EntitySet="Requests" />
-            <End Role="Tasks1" EntitySet="TasksSet" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TaskFiles_Task1" Association="MessengerModel.FK_TaskFiles_Task1">
-            <End Role="Tasks1" EntitySet="TasksSet" />
-            <End Role="TaskFiles" EntitySet="TaskFiles" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Task_TaskStatus1" Association="MessengerModel.FK_Task_TaskStatus1">
-            <End Role="TaskStatus" EntitySet="TaskStatus" />
-            <End Role="Tasks1" EntitySet="TasksSet" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Task_Users1" Association="MessengerModel.FK_Task_Users1">
+          <AssociationSet Name="FK_UserTask_Users" Association="Self.FK_UserTask_Users">
             <End Role="Users" EntitySet="Users" />
-            <End Role="Tasks1" EntitySet="TasksSet" />
+            <End Role="UserTask" EntitySet="UserTask" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="Tasks">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="ReqId" Type="Int32" Nullable="false" />
-          <Property Name="TaskName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="Binary" Nullable="false" MaxLength="255" FixedLength="false" />
-          <Property Name="status" Type="Int32" Nullable="false" />
-          <Property Name="executor" Type="Int32" Nullable="false" />
-          <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="EndTime" Type="DateTime" Precision="0" />
-          <Property Name="NeedFile" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Requests" Relationship="MessengerModel.FK_Task_Requests1" FromRole="Tasks1" ToRole="Requests" />
-          <NavigationProperty Name="TaskFiles" Relationship="MessengerModel.FK_TaskFiles_Task1" FromRole="Tasks1" ToRole="TaskFiles" />
-          <NavigationProperty Name="TaskStatus" Relationship="MessengerModel.FK_Task_TaskStatus1" FromRole="Tasks1" ToRole="TaskStatus" />
-          <NavigationProperty Name="Users" Relationship="MessengerModel.FK_Task_Users1" FromRole="Tasks1" ToRole="Users" />
-        </EntityType>
-        <Association Name="FK_Task_Requests1">
-          <End Type="MessengerModel.Requests" Role="Requests" Multiplicity="1" />
-          <End Type="MessengerModel.Tasks" Role="Tasks1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Requests">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Tasks1">
-              <PropertyRef Name="ReqId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TaskFiles_Task1">
-          <End Type="MessengerModel.Tasks" Role="Tasks1" Multiplicity="1" />
-          <End Type="MessengerModel.TaskFiles" Role="TaskFiles" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tasks1">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="TaskFiles">
-              <PropertyRef Name="TaskId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Task_TaskStatus1">
-          <End Type="MessengerModel.TaskStatus" Role="TaskStatus" Multiplicity="1" />
-          <End Type="MessengerModel.Tasks" Role="Tasks1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TaskStatus">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Tasks1">
-              <PropertyRef Name="status" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Task_Users1">
-          <End Type="MessengerModel.Users" Role="Users" Multiplicity="1" />
-          <End Type="MessengerModel.Tasks" Role="Tasks1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Tasks1">
-              <PropertyRef Name="executor" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -748,11 +873,30 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="RequestStatus">
+            <EntityTypeMapping TypeName="MessengerModel.RequestStatus">
+              <MappingFragment StoreEntitySet="RequestStatus">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Roles">
             <EntityTypeMapping TypeName="MessengerModel.Roles">
               <MappingFragment StoreEntitySet="Roles">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MessengerModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -765,12 +909,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="MessengerModel.Tasks">
+              <MappingFragment StoreEntitySet="Tasks">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ReqId" ColumnName="ReqId" />
+                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="NeedFile" ColumnName="NeedFile" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="TaskStatus">
             <EntityTypeMapping TypeName="MessengerModel.TaskStatus">
               <MappingFragment StoreEntitySet="TaskStatus">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="comment" ColumnName="comment" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -797,18 +953,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TasksSet">
-            <EntityTypeMapping TypeName="MessengerModel.Tasks">
-              <MappingFragment StoreEntitySet="Tasks">
-                <ScalarProperty Name="NeedFile" ColumnName="NeedFile" />
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="executor" ColumnName="executor" />
-                <ScalarProperty Name="status" ColumnName="status" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="TaskName" ColumnName="TaskName" />
-                <ScalarProperty Name="ReqId" ColumnName="ReqId" />
+          <EntitySetMapping Name="UserTask">
+            <EntityTypeMapping TypeName="MessengerModel.UserTask">
+              <MappingFragment StoreEntitySet="UserTask">
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="TaskId" ColumnName="TaskId" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="FileId" ColumnName="FileId" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

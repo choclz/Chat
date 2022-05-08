@@ -281,15 +281,16 @@ namespace ClientChat
                 return -1;
             }
         }
-        public static int CreateChat(string nick, string[] nick2, string name, int type, out string Errors)
+        public static int CreateChat(string nick, string[] nick2, string name, out string Errors)
         {
+            int type = 0;
             if (!IsUserExist(nick)) { Errors = "Данного администратора не существует в системе!"; return -1; }
             foreach (string nn in nick2)
             {
                 if (!IsUserExist(nn)) { Errors = "Один из участников не существует в системе!"; return -1; }
             }
             if (String.IsNullOrWhiteSpace(name)) { Errors = "Название беседы должно быть заполнено!"; return -1; }
-            if (type < 0 || type > 1) { Errors = "Тип беседы - число от 0 до 1, где 0 - личная беседа, 1 - общий чат"; return -1; }
+            if (nick2.Length > 1) type = 1;
             Chats chats = new Chats();
             List<UsersChats> uc = new List<UsersChats>();
             chats.admin = GetUserId(nick);
@@ -315,7 +316,7 @@ namespace ClientChat
                 return -1;
             }
         }
-        public static int CreateChat(string nick, string nick2, string name, int type, out string Errors)
+        /*public static int CreateChat(string nick, string nick2, string name, int type, out string Errors)
         {
             if (!IsUserExist(nick)) { Errors = "Данного администратора не существует в системе!"; return -1; }
             if (!IsUserExist(nick2)) { Errors = "Один из участников не существует в системе!"; return -1; }
@@ -342,7 +343,7 @@ namespace ClientChat
                 Errors = "Ошибка регистрации нового чата - " + ex.Message;
                 return -1;
             }
-        }
+        }*/
         public static bool ChatExist(int chatId) => _context.Chats.Where(p => p.id == chatId).Count() > 0 ? true : false;
         public static bool CanSendMessage(int userID, int ChatsId) => _context.UsersChats.Where(p => p.ChatId == ChatsId && p.UserId == userID).Count() > 0 ? true : false;
         public static int SendMessage(int chatId, string nickname, string text, bool hasFiles, out string Errors, out int messageId)
@@ -387,6 +388,32 @@ namespace ClientChat
             {
                 return Output;
             }
+        }
+
+        public static List<Message> GetMessagesFromChat(int chat_id, int userId, int skip)
+        {
+            List<Message> Output = new List<Message>();
+            try
+            {
+                var mes = MessengerEntities.GetContext().Messages.Where(p => p.ChatId == chat_id).ToList().Skip(skip);
+                foreach (Messages mess in mes)
+                {
+                    Output.Add(new Message(mess.id, mess.Users.nickname + $"({mess.Users.FName} {mess.Users.SName})", mess.text, mess.date, mess.from == userId, mess.Users.Photo));
+                }
+                return Output;
+            }
+            catch
+            {
+                return Output;
+            }
+        }
+        public static List<Requests> GetUserRequests(int chatId, int userID, bool Author)
+        {
+            if (Author)
+            {
+                return MessengerEntities.GetContext().Requests.Where(p => p.customer == userID && p.RequestFrom == chatId).ToList();
+            }
+            return MessengerEntities.GetContext().Requests.Where(p => p.customer != userID && p.RequestFrom == chatId).ToList();
         }
     }
 }

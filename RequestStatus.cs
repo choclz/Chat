@@ -12,32 +12,18 @@ namespace ClientChat
     using System;
     using System.Collections.Generic;
     
-    public partial class Chats
+    public partial class RequestStatus
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Chats()
+        public RequestStatus()
         {
-            this.Messages = new HashSet<Messages>();
             this.Requests = new HashSet<Requests>();
-            this.UsersChats = new HashSet<UsersChats>();
         }
     
         public int id { get; set; }
-        public int admin { get; set; }
         public string name { get; set; }
-        public bool type { get; set; }
-        public string TextType
-        {
-            get
-            {
-                return type ? "Беседа": "Личная переписка";
-            }
-        }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Messages> Messages { get; set; }
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Requests> Requests { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<UsersChats> UsersChats { get; set; }
     }
 }

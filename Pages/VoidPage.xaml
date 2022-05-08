@@ -1,0 +1,16 @@
+﻿<Page x:Class="ClientChat.Pages.VoidPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ClientChat.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="VoidPage">
+
+    <Grid>
+        <Label HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="24" Grid.Column="1" Grid.RowSpan="3" Background="Bisque">
+            Для начала работы, пожалуйста, выберите чат.
+        </Label>
+    </Grid>
+</Page>
