@@ -16,12 +16,14 @@ namespace ClientChat
         public bool IsAuthor { get; set; }
 
 
+
         public Message(int id, string author, string text, DateTime date, bool isAuthor, byte[] avatar = null)
         {
             this.id = id;
             Author = author ?? throw new ArgumentNullException(nameof(author));
             Text = text ?? throw new ArgumentNullException(nameof(text));
             this.date = date;
+            this.avatar = avatar;
             IsAuthor = isAuthor;
         }
     }

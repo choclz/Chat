@@ -43,6 +43,26 @@ namespace ClientChat
                 return null;
             }
         }
+
+        public static void Update()
+        {
+            _context.ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
+        }
+
+        public static int Save()
+        {
+            try
+            {
+                _context.SaveChanges();
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return -1;
+            }
+        }
+
         public static bool CheckPass(string pass, string Nick)
         {
             try

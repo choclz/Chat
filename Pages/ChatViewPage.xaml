@@ -14,13 +14,13 @@
             <RowDefinition Height="376*"/>
             <RowDefinition Height="41*"/>
         </Grid.RowDefinitions>
-        <ListView Name="Chat_id" Grid.Column="1" Grid.RowSpan="3" >
+        <ListView Name="Chat_id" Grid.Column="1" Grid.RowSpan="2" Width="630">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="120"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="510"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"></RowDefinition>
@@ -37,7 +37,7 @@
                             </Image.Source>
                         </Image>
                         <TextBlock Grid.Column="1" Name="messageSender" Text="{Binding Author}"></TextBlock>
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Text}"></TextBlock>
+                        <TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="1" Text="{Binding Text}"></TextBlock>
                         <TextBlock Grid.Row="2" Grid.Column="1" FontSize="12" HorizontalAlignment="Right" Text="{Binding date}"></TextBlock>
                     </Grid>
                     <DataTemplate.Triggers>

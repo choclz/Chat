@@ -36,18 +36,24 @@ namespace ClientChat.Pages
 
         private void UpdateMessages(object o)
         {
-            int messagesCount = Chat_id.Items.Count;
-            List<Message> Newmessages = Connector.GetMessagesFromChat(chatID, UserData.UserId).Skip(messagesCount).ToList();
-            if (Newmessages.Count() != 0)
+            try
             {
-                foreach (Message msg in Newmessages)
+                int messagesCount = Chat_id.Items.Count;
+                List<Message> Newmessages = Connector.GetMessagesFromChat(chatID, UserData.UserId, messagesCount).ToList();
+                if (Newmessages.Count() != 0)
                 {
-                    messages.Add(msg);
-                    Dispatcher.Invoke(() => _messages.Items.Refresh());
-                    Chat_id.ScrollIntoView(Chat_id.Items[--messagesCount]);
+                    foreach (Message msg in Newmessages)
+                    {
+                        messages.Add(msg);
+                        Dispatcher.Invoke(() => _messages.Items.Refresh());
+                        Console.WriteLine("Выдано: " + Chat_id.Items.Count + " Получено: " + Newmessages.Count);
+                    }
                 }
             }
-            Console.WriteLine("Выдано: " + Chat_id.Items.Count + " Получено: " + Newmessages.Count);
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
 
@@ -55,13 +61,11 @@ namespace ClientChat.Pages
         {
             string Err;
             int id = -1;
+            int t = Chat_id.Items.Count;
             UserData.UserLogin = UserData.UserLogin;
             Connector.SendMessage(_currentChat.id, UserData.UserLogin, NewMessage.Text, false, out Err, out id);
-            messages.Add(new Message(id,UserData.UserLogin, NewMessage.Text, DateTime.Now, true));
-            Chat_id.Items.Refresh();
             NewMessage.Clear();
-            int messCount = Chat_id.Items.Count;
-            if (messCount != 0) Chat_id.ScrollIntoView(Chat_id.Items[--messCount]);
+            if (t != 0) Chat_id.ScrollIntoView(Chat_id.Items[t - 1]);
         }
 
         private void NewTaskBtn_Click(object sender, RoutedEventArgs e)

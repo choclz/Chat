@@ -12,7 +12,7 @@
         <TextBox x:Name="userLogin" Text="tikhonov_" Width="200"  Height="30" Margin="296,167,296,222"/>
         
         <PasswordBox x:Name="userPassword" Width="200" Height="30" Margin="296,202,296,187"/>
-        <Button x:Name="AuthUser" Content="Авторизация" Margin="0,353,0,48" Click="AuthUser_Click"/>
+        <Button x:Name="AuthUser" Content="Авторизация" Margin="0,353,0,48" Click="AuthUser_Click" IsDefault="True"/>
         <Button x:Name="CreateUser" Content="Еще не зарегистрированы?" Margin="0,402,0,0" Click="CreateUser_Click"/>
         <Label Content="Авторизация в приложении" Margin="311,125,314,268" RenderTransformOrigin="0.085,0.795" Width="167" VerticalAlignment="Center" HorizontalAlignment="Center"/>
     </Grid>

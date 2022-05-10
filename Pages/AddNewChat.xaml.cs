@@ -25,6 +25,8 @@ namespace ClientChat.Pages
         public AddNewChat()
         {
             InitializeComponent();
+            Users user = AllUsers.Where(p => p.id == UserData.UserId).First();
+            AllUsers.Remove(user);
             UsersToAddLV.ItemsSource = AllUsers;
             UsersToDelLV.ItemsSource = users;
         }
@@ -47,13 +49,34 @@ namespace ClientChat.Pages
 
         private void CreateChat_Click(object sender, RoutedEventArgs e)
         {
-            Connector.CreateChat(UserData.UserLogin, users.Select(p => p.nickname.ToString()).ToArray(), ChatName.Text, out string Errors);
-            Console.WriteLine(Errors);
+            try
+            {
+                Connector.CreateChat(UserData.UserLogin, users.Select(p => p.nickname.ToString()).ToArray(), ChatName.Text, out string Errors);
+                Console.WriteLine(Errors);
+                MessageBox.Show("Беседа успешно создана!");
+                Manager.MessagePartBack();
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка создания беседы!");
+            }
         }
 
         private void User_KeyDown(object sender, KeyEventArgs e)
         {
-            AllUsers = (List<Users>)AllUsers.Where(p => p.nickname.Contains(User.Text));
+            List<Users> Selected = AllUsers.Where(p => p.nickname.Contains(User.Text.ToLower())).ToList();
+            UsersToAddLV.ItemsSource = Selected;
+            UsersToAddLV.Items.Refresh();
+        }
+
+        private void BackBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MessagePartBack();
+        }
+
+        private void Check_Profile(object sender, RoutedEventArgs e)
+        {
+            Manager.MessagePart.Navigate(new Pages.ProfileInfo(((sender as Button).DataContext as Users).id));
         }
     }
 }

@@ -21,13 +21,13 @@ namespace ClientChat
             : base("name=MessengerEntities")
         {
         }
-
+        
         public static MessengerEntities GetContext()
         {
             if (_context == null) _context = new MessengerEntities();
             return _context;
         }
-    
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();

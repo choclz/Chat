@@ -9,6 +9,34 @@
       Title="AddEditTask">
 
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="239*"/>
+            <ColumnDefinition Width="391*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Label Content="Название"></Label>
+        <TextBox Name="RequestName" Grid.Column="1" Text="{Binding TaskName}"/>
+        <TextBox Name="Desc" Grid.Column="1" Grid.Row="1" Text="{Binding Description}"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="136,0" Width="358">
+            <StackPanel>
+                <Label Content="Дата начала исполнения"></Label>
+                <Calendar Name="StartTime" SelectedDate="{Binding StartTime}"/>
+            </StackPanel>
+            <StackPanel>
+                <Label Content="Дата завершения исполнения" Grid.Row="3"></Label>
+                <Calendar Grid.Column="1" Grid.Row="3" Name="EndTime" SelectedDate="{Binding EndTime}"/>
+            </StackPanel>
+        </StackPanel>
+        <CheckBox Content="Необходимо прикрепить результат" x:Name="FileNeeded"  Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" IsChecked="{Binding NeedFile}"></CheckBox>
+        <Button Name="AddRequest" Content="Сохранить" Grid.Row="5" Grid.ColumnSpan="2" Click="AddRequest_Click"/>
+        <Button Name="BackBtn" Content="Назад" Grid.Row="6" Grid.ColumnSpan="2" Click="BackBtn_Click"/>
     </Grid>
 </Page>

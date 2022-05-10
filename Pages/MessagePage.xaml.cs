@@ -22,11 +22,9 @@ namespace ClientChat
     /// </summary>
     public partial class MessagePage : Page
     {
-        List<Chats> MessageGroup = Connector.GetChats(UserData.UserId);
         public MessagePage()
         {
             InitializeComponent();
-            UsersList.ItemsSource = MessageGroup;
             ChatView.Navigate(new Pages.VoidPage());
             Manager.MessagePart = ChatView;
         }
@@ -41,6 +39,45 @@ namespace ClientChat
         private void AddChatBtn_Click(object sender, RoutedEventArgs e)
         {
             Manager.MessagePart.Navigate(new Pages.AddNewChat());
+        }
+
+        private void EditProfile_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MessagePart.Navigate(new Pages.ProfileInfo(-1));
+        }
+
+        private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (Visibility == Visibility.Visible)
+            {
+                Connector.Update();
+                UsersList.ItemsSource = Connector.GetChats(UserData.UserId).ToList();
+                ProfInfo.DataContext = Connector._context.Users.Where(p => p.id == UserData.UserId).First();
+            }
+        }
+
+        private void UpdateInfo(object sender, RoutedEventArgs e)
+        {
+            Connector.Update();
+            UsersList.ItemsSource = Connector.GetChats(UserData.UserId).ToList();
+            ProfInfo.DataContext = Connector._context.Users.Where(p => p.id == UserData.UserId).First();
+        }
+
+        private void DelBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Chats currentChat = (sender as Button).DataContext as Chats;
+            if (MessageBox.Show("Вы уверены, что хотите удалть данный диалог?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                Connector._context.Chats.Remove(currentChat);
+                if (Connector.Save() == 1)
+                {
+                    MessageBox.Show("Чат успешно удалён!");
+                    UsersList.ItemsSource = Connector.GetChats(UserData.UserId).ToList();
+                    Manager.MessagePart.Navigate(new Pages.VoidPage());
+                    return;
+                }
+                MessageBox.Show("Внутренняя ошибка! Попробуйте позже!");
+            }
         }
     }
 }

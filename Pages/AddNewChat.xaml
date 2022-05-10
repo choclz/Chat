@@ -13,7 +13,8 @@
             <RowDefinition Height="22*"/>
             <RowDefinition Height="84*"/>
             <RowDefinition Height="101*"/>
-            <RowDefinition Height="18*"/>
+            <RowDefinition Height="AUTO"/>
+            <RowDefinition Height="AUTO"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="170"/>
@@ -34,6 +35,13 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="Добавить" Grid.Column="3" Name="AddToList" Click="AddToList_Click"></Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="auto" Header="Профиль пользователя">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Профиль" Grid.Column="3" Name="CheckProfile" Click="Check_Profile"></Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -58,6 +66,7 @@
             </DataGrid>
         </StackPanel>
         <Button x:Name="CreateChat" Content="Создать беседу" Grid.Row="3" Grid.ColumnSpan="2" Click="CreateChat_Click"></Button>
+        <Button x:Name="BackBtn" Content="Назад" Grid.Row="4" Grid.ColumnSpan="2" Click="BackBtn_Click"></Button>
     </Grid>
 
 </Page>

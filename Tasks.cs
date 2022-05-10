@@ -23,7 +23,7 @@ namespace ClientChat
         public int id { get; set; }
         public int ReqId { get; set; }
         public string TaskName { get; set; }
-        public byte[] Description { get; set; }
+        public string Description { get; set; }
         public System.DateTime StartTime { get; set; }
         public Nullable<System.DateTime> EndTime { get; set; }
         public bool NeedFile { get; set; }

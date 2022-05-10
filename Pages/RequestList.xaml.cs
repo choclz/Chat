@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
+using System.Data;
+using System.Data.Entity;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -26,7 +27,7 @@ namespace ClientChat.Pages
         {
             InitializeComponent();
             this.chatId = chatId;
-            req = MessengerEntities.GetContext().Requests.Where(p => p.RequestFrom == chatId).ToList();
+            req = MessengerEntities.GetContext().Requests.Where(p => p.RequestFrom == chatId).Include(p=>p.Users).ToList();
             RequestDG.ItemsSource = req;
         }
 
@@ -34,7 +35,7 @@ namespace ClientChat.Pages
         {
             if ((sender as RadioButton).Uid == "0")
             {
-                RequestDG.ItemsSource = req.Where(p => p.customer == UserData.UserId);
+                RequestDG.ItemsSource = req.Where(p => p.customer == UserData.UserId).ToList();
                 return;
             }
             RequestDG.ItemsSource = req.Where(p => p.customer != UserData.UserId);
@@ -58,6 +59,31 @@ namespace ClientChat.Pages
         private void BackBtn_Click(object sender, RoutedEventArgs e)
         {
             Manager.MessagePartBack();
+        }
+
+        private void DelBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var RequestsForRemoving = RequestDG.SelectedItems.Cast<Requests>().ToList();
+            if (MessageBox.Show($"Вы точно хотите удалить следующие {RequestsForRemoving.Count()} элементов?", "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK)
+            {
+                try
+                {
+                    Connector._context.Requests.RemoveRange(RequestsForRemoving);
+                    Connector._context.SaveChanges();
+                    MessageBox.Show("Данные удалены!");
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void RequestDG_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Requests currentRequest = (sender as DataGrid).SelectedItem as Requests;
+            if (currentRequest == null) return;
+            Manager.MessagePart.Navigate(new Pages.TasksList(currentRequest.id));
         }
     }
 }

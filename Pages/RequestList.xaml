@@ -21,15 +21,15 @@
             <RadioButton GroupName="TasksRB" Uid="0"  Name="TasksFromYou" Click="TasksFromYou_Click" Content="Заявки от Вас" IsChecked="True"/>
             <RadioButton GroupName="TasksRB" Uid="1" Name="TasksForYou" Click="TasksFromYou_Click"  Content="Заявки для вас"/>
         </StackPanel>
-        <DataGrid Grid.Row="2" x:Name="RequestDG" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid Grid.Row="2" x:Name="RequestDG" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="RequestDG_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название" Width="auto" Binding="{Binding name}"/>
                 <DataGridTextColumn Header="Статус заявки" Width="auto" Binding="{Binding RequestStatus.name}"/>
-                <DataGridTextColumn Header="Поставщик" Width="auto" Binding="{Binding customer}"/>
+                <DataGridTextColumn Header="Поставщик" Width="auto" Binding="{Binding Users.nickname}"/>
                 <DataGridTextColumn Header="Дата начала исполнения" Width="auto" Binding="{Binding StartTime}"/>
                 <DataGridTextColumn Header="Дата завершения" Width="auto" Binding="{Binding EndTime}"/>
-                <DataGridTextColumn Header="Задачи" Width="auto" x:Name="TasksStatus"/>
-                <DataGridTemplateColumn Header="Редактирование" Width="*">
+                <DataGridTextColumn Header="Задачи" Width="auto" x:Name="TasksStatus" Binding="{Binding TasksCount}"/>
+                <DataGridTemplateColumn Header="Редактирование" Width="auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button x:Name="AddRequestBtn" Content="Редактировать" Click="AddRequestBtn_Click"></Button>
@@ -38,7 +38,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="DelBtn" Content="Удалить заявки" Width="200" HorizontalAlignment="Left" Grid.Row="3"></Button>
+        <Button x:Name="DelBtn" Content="Удалить заявки" Click="DelBtn_Click" Width="200" HorizontalAlignment="Left" Grid.Row="3"></Button>
         <Button x:Name="AddBtn" Content="Добавить заявки" Click="AddBtn_Click" Width="200" Grid.Row="3" HorizontalAlignment="Right"></Button>
     </Grid>
 </Page>

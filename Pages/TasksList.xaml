@@ -14,15 +14,15 @@
             <RowDefinition Height="377*"/>
             <RowDefinition Height="40*"/>
         </Grid.RowDefinitions>
+        <Button x:Name="BackBtn" Content="Назад" Width="60" HorizontalAlignment="Left" Click="BackBtn_Click"/>
         <Label Name="RequestName" HorizontalAlignment="Center" HorizontalContentAlignment="Center"></Label>
-        <DataGrid Grid.Row="1" x:Name="RequestDG" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid Grid.Row="1" x:Name="TaskDG" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="TaskDG_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название" Width="auto" Binding="{Binding TaskName}"/>
                 <DataGridTextColumn Header="Описание" Width="auto" Binding="{Binding Description}"/>
                 <DataGridTextColumn Header="Дата начала" Width="auto" Binding="{Binding StartTime}"/>
                 <DataGridTextColumn Header="Дата завершения" Width="auto" Binding="{Binding EndTime}"/>
                 <DataGridTextColumn Header="Файл?" Width="auto" Binding="{Binding NeedFile}"/>
-                <DataGridTextColumn Header="Статус" Width="auto" x:Name="TasksStatus"/>
                 <DataGridTemplateColumn Header="Редактирование" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -32,7 +32,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="DelBtn" Content="Удалить заявки" Width="200" HorizontalAlignment="Left" Grid.Row="3"></Button>
-        <Button x:Name="AddBtn" Content="Добавить заявки" Click="AddBtn_Click" Width="200" Grid.Row="3" HorizontalAlignment="Right"></Button>
+        <Button x:Name="DelBtn" Content="Удалить задачи" Width="200" HorizontalAlignment="Left" Grid.Row="3"></Button>
+        <Button x:Name="AddBtn" Content="Добавить задачи" Click="AddBtn_Click" Width="200" Grid.Row="3" HorizontalAlignment="Right"></Button>
     </Grid>
 </Page>
