@@ -20,7 +20,7 @@ namespace ClientChat.Pages
     /// </summary>
     public partial class AddEditTask : Page
     {
-        int ReqId;
+        string Error;
         List<Tasks> tasks = Connector._context.Tasks.ToList();
         Tasks task = new Tasks();
 
@@ -43,19 +43,30 @@ namespace ClientChat.Pages
             int a;
             if (task.id == 0)
             {
-                Connector._context.Tasks.Add(task);
+                if (Connector.AddTask(task, out Error) == -1) { MessageBox.Show(Error); return; }
                 List<int> UsersID = Connector._context.UsersChats.Where(p => p.ChatId == task.Requests.RequestFrom && p.UserId != UserData.UserId).Select(p => p.UserId).ToList();
                 foreach (int user in UsersID)
                 {
                     Connector._context.UserTask.Add(new UserTask(){ UserId = user, TaskId = task.id, status = 1, Comment = "Ответ отсутствует" });
                 }
-                Connector.SendMessage(task.Requests.RequestFrom, UserData.UserLogin, "В данном диалоге создана новая задача!", false, out Err, out a);
-                MessengerEntities.GetContext().SaveChanges();
+                if (Connector.SendMessage(task.Requests.RequestFrom, UserData.UserLogin, "В данном диалоге создана новая задача!", out Err, out a) == -1)
+                {
+                    MessageBox.Show(Error);
+                    return;
+                }
+                Connector.Save(out Error); MessageBox.Show(Error);
                 Manager.MessagePart.GoBack();
                 return;
             }
-            Connector.SendMessage(task.Requests.RequestFrom, UserData.UserLogin, $"В данном диалоге обновлена задача - \"{task.TaskName}\"! ", false, out Err, out a);
-            MessengerEntities.GetContext().SaveChanges();
+            if (task.StartTime < DateTime.Now.AddDays(-1)) { MessageBox.Show("Дата начала должна быть больше текущей даты!"); return; }
+            if (task.StartTime < task.Requests.StartTime) { MessageBox.Show("Дата начала выполнения задачи не может быть меньше даты начала выполнения заявки!"); return; }
+            if (task.EndTime == null) { MessageBox.Show("Не задана дата окончания выполнения!"); return; }
+            if (task.EndTime > task.Requests.EndTime) { MessageBox.Show("Дата окончания выполнения задачи не может быть больше даты окончания заявки!"); return; }
+            if (task.EndTime < task.StartTime) { MessageBox.Show("Дата окончания выполнения должна быть больше даты старта!"); return; }
+            if (string.IsNullOrWhiteSpace(task.TaskName)) { MessageBox.Show(Error = "Имя задачи не задано!"); return; }
+            if (string.IsNullOrWhiteSpace(task.Description)) { MessageBox.Show(Error = "Описание задачи не задано!"); return; }
+            Connector.SendMessage(task.Requests.RequestFrom, UserData.UserLogin, $"В данном диалоге обновлена задача - \"{task.TaskName}\"! ", out Err, out a);
+            Connector.Save(out Error); MessageBox.Show(Error);
             Manager.MessagePart.GoBack();
         }
 

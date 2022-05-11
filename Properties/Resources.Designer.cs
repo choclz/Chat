@@ -69,5 +69,14 @@ namespace ClientChat.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.IO.UnmanagedMemoryStream, аналогичного System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream snapchat_meloboom {
+            get {
+                return ResourceManager.GetStream("snapchat_meloboom", resourceCulture);
+            }
+        }
     }
 }

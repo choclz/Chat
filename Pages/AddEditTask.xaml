@@ -15,16 +15,17 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="100"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Label Content="Название"></Label>
+        <Label Content="Название"/>
         <TextBox Name="RequestName" Grid.Column="1" Text="{Binding TaskName}"/>
-        <TextBox Name="Desc" Grid.Column="1" Grid.Row="1" Text="{Binding Description}"/>
+        <Label Grid.Row="1" Content="Описание"/>
+        <TextBox Name="Desc" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Description}"/>
         <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="136,0" Width="358">
             <StackPanel>
                 <Label Content="Дата начала исполнения"></Label>

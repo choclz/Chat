@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace ClientChat.Pages
 {
@@ -22,8 +23,10 @@ namespace ClientChat.Pages
     /// </summary>
     public partial class AnswerPage : Page
     {
-        int TaskId;
         UserTask _current;
+        byte[] file;
+        bool fileAdded = false;
+        string Error;
         public AnswerPage(UserTask current)
         {
             InitializeComponent();
@@ -31,6 +34,10 @@ namespace ClientChat.Pages
             if (current.Tasks.NeedFile)
             {
                 PlaceForFile.Visibility = Visibility.Visible;
+                if (current.FileId != null)
+                {
+                    FileName.Content = "Ранее уже был загружен файл - " + _current.TaskFiles.Name;
+                }
             }
             else
             {
@@ -47,29 +54,53 @@ namespace ClientChat.Pages
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            int id; string Err;
+            int id;
             if (TaskReady.Visibility == Visibility)
             {
                 if (TaskReady.IsChecked == true)
                 {
                     _current.status = 2;
-                    Connector.Save();
-                    Connector.SendMessage(_current.Tasks.Requests.RequestFrom, UserData.UserLogin, $"У задачи {_current.Tasks.TaskName} обновлён статус: выполнено.", false, out Err, out id);
+                    Connector.Save(out Error);
+                    MessageBox.Show(Error);
+                    Connector.SendMessage(_current.Tasks.Requests.RequestFrom, UserData.UserLogin, $"У задачи {_current.Tasks.TaskName} обновлён статус: выполнено.", out Error, out id);
                 }
                 else
                 {
                     _current.status = 1;
-                    Connector.Save();
-                    Connector.SendMessage(_current.Tasks.Requests.RequestFrom, UserData.UserLogin, $"У задачи {_current.Tasks.TaskName} обновлён статус: не выполнено.", false, out Err, out id);
+                    Connector.Save(out Error);
+                    MessageBox.Show(Error);
+                    Connector.SendMessage(_current.Tasks.Requests.RequestFrom, UserData.UserLogin, $"У задачи {_current.Tasks.TaskName} обновлён статус: не выполнено.", out Error, out id);
                 }
-                if (id == -1)
+                if (Error == null) MessageBox.Show("Задача обработана!");
+            }
+            else
+            {
+                if (fileAdded)
                 {
-                    MessageBox.Show(Err.ToString(), "Ошибка отправки, попробуйте позже!");
+                    _current.TaskFiles = new TaskFiles() { File = file, Name = FileName.Content.ToString() };
+                    _current.status = 2;
+                    Connector.Save(out Error);
+                    MessageBox.Show(Error);
+                    Connector.SendMessage(_current.Tasks.Requests.RequestFrom, UserData.UserLogin, $"У задачи {_current.Tasks.TaskName} обновлён статус: добавлен файл.", out Error, out id);
                 }
-                else
+            }
+            Manager.MessagePartBack();
+        }
+
+        private void ChooseFile_Click(object sender, RoutedEventArgs e)
+        {
+            using (System.Windows.Forms.OpenFileDialog OPF = new System.Windows.Forms.OpenFileDialog())
+            {
+                OPF.Filter = "Документы ворд|*.doc|Старые документы ворд|*.docx|Файлы pdf|*.pdf";
+                if (OPF.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
-                    MessageBox.Show("Задача обработана!");
-                    Manager.MessagePartBack();
+                    using (FileStream fs = new FileStream(OPF.FileName, FileMode.Open))
+                    {
+                        file = new byte[fs.Length];
+                        fs.Read(file, 0, file.Length);
+                        fileAdded = true;
+                        FileName.Content = OPF.SafeFileName;
+                    }
                 }
             }
         }

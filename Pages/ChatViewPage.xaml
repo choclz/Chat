@@ -10,35 +10,40 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="33*"/>
-            <RowDefinition Height="376*"/>
-            <RowDefinition Height="41*"/>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <ListView Name="Chat_id" Grid.Column="1" Grid.RowSpan="2" Width="630">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="630"/>
+        </Grid.ColumnDefinitions>
+        <ListView Name="Chat_id" Grid.Column="1" Grid.RowSpan="2" Width="630" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"></ColumnDefinition>
-                            <ColumnDefinition Width="510"></ColumnDefinition>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="520"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Image Width="50" Grid.RowSpan="2" Stretch="UniformToFill" >
-                            <Image.Source>
-                                <Binding Path="avatar">
-                                    <Binding.TargetNullValue>
-                                        <ImageSource>/Resources/NullAvatar.jpg</ImageSource>
-                                    </Binding.TargetNullValue>
-                                </Binding>
-                            </Image.Source>
-                        </Image>
-                        <TextBlock Grid.Column="1" Name="messageSender" Text="{Binding Author}"></TextBlock>
-                        <TextBlock TextWrapping="Wrap" Grid.Row="1" Grid.Column="1" Text="{Binding Text}"></TextBlock>
-                        <TextBlock Grid.Row="2" Grid.Column="1" FontSize="12" HorizontalAlignment="Right" Text="{Binding date}"></TextBlock>
+                        <StackPanel  Margin="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Image Width="40" MinHeight="40"  Stretch="Fill" >
+                                <Image.Source>
+                                    <Binding Path="avatar">
+                                        <Binding.TargetNullValue>
+                                            <ImageSource>/Resources/NullAvatar.jpg</ImageSource>
+                                        </Binding.TargetNullValue>
+                                    </Binding>
+                                </Image.Source>
+                            </Image>
+                        </StackPanel>
+                        <TextBlock Width="auto" Grid.Column="1" Name="messageSender" Text="{Binding Author}"></TextBlock>
+                        <TextBlock Width="500" HorizontalAlignment="Left" TextWrapping="Wrap" Grid.Row="1" Grid.Column="1" Text="{Binding Text}"></TextBlock>
+                        <TextBlock Width="480" TextAlignment="Right" Grid.Row="2" Grid.Column="1" FontSize="12" FontWeight="Bold" Text="{Binding date, StringFormat=dd.MM.yyyy HH:MM}"></TextBlock>
                     </Grid>
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding IsAuthor}" Value="true">
@@ -49,9 +54,10 @@
             </ListView.ItemTemplate>
         </ListView>
         <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-            <TextBox Name="NewMessage" Width="400"></TextBox>
-            <Button IsDefault="True" x:Name="SendBtn" Click="SendBtn_Click" Content="Send" Width="115"></Button>
-            <Button x:Name="NewTaskBtn" Click="NewTaskBtn_Click" Content="Tasks" Width="115"></Button>
+            <TextBox Name="NewMessage" Padding="10" Width="420" TextWrapping="Wrap"></TextBox>
+            <Button IsDefault="True" x:Name="SendBtn" Click="SendBtn_Click" Content="Send" Width="70"></Button>
+            <Button x:Name="NewTaskBtn" Click="NewTaskBtn_Click" Content="Tasks" Width="70"></Button>
+            <Button x:Name="Files" Click="Files_Click" Content="Files" Width="70"></Button>
         </StackPanel>
     </Grid>
 </Page>

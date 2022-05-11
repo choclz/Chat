@@ -12,13 +12,13 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="330"/>
             <RowDefinition Height="40"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="170"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="630"/>
         </Grid.ColumnDefinitions>
         <Button Content="Обновить сведения" Click="UpdateInfo"/>
         <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" x:Name="UsersList" MouseDoubleClick="UsersList_MouseDoubleClick" Width="170" Grid.Row="1">

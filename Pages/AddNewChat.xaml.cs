@@ -21,12 +21,18 @@ namespace ClientChat.Pages
     public partial class AddNewChat : Page
     {
         List<Users> users = new List<Users>();
-        List<Users> AllUsers = Connector.GetUsers();
+        List<Users> AllUsers;
+        string Errors;
         public AddNewChat()
         {
             InitializeComponent();
+            AllUsers = Connector.GetUsers(out Errors);
             Users user = AllUsers.Where(p => p.id == UserData.UserId).First();
             AllUsers.Remove(user);
+            if (Errors != null)
+            {
+                MessageBox.Show(Errors);
+            }
             UsersToAddLV.ItemsSource = AllUsers;
             UsersToDelLV.ItemsSource = users;
         }
@@ -49,17 +55,11 @@ namespace ClientChat.Pages
 
         private void CreateChat_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if (Connector.CreateChat(UserData.UserLogin, users.Select(p => p.nickname.ToString()).ToArray(), ChatName.Text, out string Errors) == 1)
             {
-                Connector.CreateChat(UserData.UserLogin, users.Select(p => p.nickname.ToString()).ToArray(), ChatName.Text, out string Errors);
-                Console.WriteLine(Errors);
-                MessageBox.Show("Беседа успешно создана!");
                 Manager.MessagePartBack();
             }
-            catch
-            {
-                MessageBox.Show("Ошибка создания беседы!");
-            }
+            MessageBox.Show(Errors);
         }
 
         private void User_KeyDown(object sender, KeyEventArgs e)

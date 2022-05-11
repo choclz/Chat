@@ -33,6 +33,7 @@
                         <ImageSource>/Resources/2763005-200.png</ImageSource>
                     </Image.Source>
                 </Image>
+                <Button Content="Выбрать файл" Name="ChooseFile" Click="ChooseFile_Click"/>
                 <Label Content="Файл не выбран" Name="FileName"/>
             </StackPanel>
         </StackPanel>

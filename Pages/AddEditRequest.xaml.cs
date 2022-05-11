@@ -21,6 +21,7 @@ namespace ClientChat.Pages
     public partial class AddEditRequest : Page
     {
         Requests request = new Requests();
+        string Error;
         int chatId;
         List<RequestStatus> requestStatuses = Connector._context.RequestStatus.ToList();
 
@@ -45,19 +46,21 @@ namespace ClientChat.Pages
 
         private void AddRequest_Click(object sender, RoutedEventArgs e)
         {
-            string Err;
             int a;
             if (request.id == 0)
             {
-                request.status = 1;
-                MessengerEntities.GetContext().Requests.Add(request);
-                Connector.SendMessage(chatId, UserData.UserLogin, "В данном диалоге создана новая заявка!", false, out Err, out a);
-                MessengerEntities.GetContext().SaveChanges();
+                if (Connector.AddRequest(request, out Error) == -1) { MessageBox.Show(Error); return; }
+                Connector.SendMessage(chatId, UserData.UserLogin, "В данном диалоге создана новая заявка!", out Error, out a);
+                Connector.Save(out Error); MessageBox.Show(Error);
                 Manager.MessagePart.GoBack();
                 return;
             }
-            Connector.SendMessage(chatId, UserData.UserLogin, $"В данном диалоге обновлена заявка - \"{request.name}\"! ", false, out Err, out a);
-            MessengerEntities.GetContext().SaveChanges();
+            if (request.StartTime < DateTime.Now.AddDays(-1)) { MessageBox.Show("Дата начала должна быть больше текущей даты!"); return; }
+            if (request.EndTime == null) { MessageBox.Show("Не задана дата окончания выполнения!"); return; }
+            if (request.EndTime < request.StartTime) { MessageBox.Show("Дата окончания выполнения должна быть больше даты старта!"); return; }
+            if (string.IsNullOrWhiteSpace(request.name)) { MessageBox.Show("Имя заявки не задано!"); return; }
+            Connector.SendMessage(chatId, UserData.UserLogin, $"В данном диалоге обновлена заявка - \"{request.name}\"! ", out Error, out a);
+            Connector.Save(out Error); MessageBox.Show(Error);
             Manager.MessagePart.GoBack();
         }
 

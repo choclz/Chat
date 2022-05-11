@@ -22,6 +22,7 @@ namespace ClientChat
     /// </summary>
     public partial class MessagePage : Page
     {
+        string Error;
         public MessagePage()
         {
             InitializeComponent();
@@ -50,17 +51,31 @@ namespace ClientChat
         {
             if (Visibility == Visibility.Visible)
             {
-                Connector.Update();
-                UsersList.ItemsSource = Connector.GetChats(UserData.UserId).ToList();
-                ProfInfo.DataContext = Connector._context.Users.Where(p => p.id == UserData.UserId).First();
+                Connector.Update(out Error);
+                {
+                    if (Error != null)
+                    {
+                        MessageBox.Show(Error);
+                        return;
+                    }
+                    UsersList.ItemsSource = Connector.GetChats(UserData.UserId).ToList();
+                    ProfInfo.DataContext = Connector._context.Users.Where(p => p.id == UserData.UserId).First();
+                }
             }
         }
 
         private void UpdateInfo(object sender, RoutedEventArgs e)
         {
-            Connector.Update();
-            UsersList.ItemsSource = Connector.GetChats(UserData.UserId).ToList();
-            ProfInfo.DataContext = Connector._context.Users.Where(p => p.id == UserData.UserId).First();
+            Connector.Update(out Error);
+            {
+                if (Error != null)
+                {
+                    MessageBox.Show(Error);
+                    return;
+                }
+                UsersList.ItemsSource = Connector.GetChats(UserData.UserId).ToList();
+                ProfInfo.DataContext = Connector._context.Users.Where(p => p.id == UserData.UserId).First();
+            }
         }
 
         private void DelBtn_Click(object sender, RoutedEventArgs e)
@@ -69,14 +84,14 @@ namespace ClientChat
             if (MessageBox.Show("Вы уверены, что хотите удалть данный диалог?", "Внимание", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 Connector._context.Chats.Remove(currentChat);
-                if (Connector.Save() == 1)
+                if (Connector.Save(out Error) == 1)
                 {
                     MessageBox.Show("Чат успешно удалён!");
                     UsersList.ItemsSource = Connector.GetChats(UserData.UserId).ToList();
                     Manager.MessagePart.Navigate(new Pages.VoidPage());
                     return;
                 }
-                MessageBox.Show("Внутренняя ошибка! Попробуйте позже!");
+                MessageBox.Show(Error);
             }
         }
     }

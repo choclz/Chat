@@ -23,12 +23,11 @@ namespace ClientChat.Pages
     {
         int chatId;
         List<Requests> req;
+        string Error;
         public RequestList(int chatId)
         {
             InitializeComponent();
             this.chatId = chatId;
-            req = MessengerEntities.GetContext().Requests.Where(p => p.RequestFrom == chatId).Include(p=>p.Users).ToList();
-            RequestDG.ItemsSource = req;
         }
 
         private void TasksFromYou_Click(object sender, RoutedEventArgs e)
@@ -84,6 +83,24 @@ namespace ClientChat.Pages
             Requests currentRequest = (sender as DataGrid).SelectedItem as Requests;
             if (currentRequest == null) return;
             Manager.MessagePart.Navigate(new Pages.TasksList(currentRequest.id));
+        }
+
+        private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (Visibility == Visibility.Visible)
+            {
+                Connector.Update(out Error);
+                {
+                    if (Error != null)
+                    {
+                        MessageBox.Show(Error);
+                        return;
+                    }
+                    req = MessengerEntities.GetContext().Requests.Where(p => p.RequestFrom == chatId).Include(p => p.Users).ToList();
+                    TasksFromYou.IsChecked = true;
+                    RequestDG.ItemsSource = req.Where(p => p.customer == UserData.UserId).ToList();
+                }
+            }
         }
     }
 }

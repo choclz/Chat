@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,15 +23,18 @@ namespace ClientChat.Pages
     public partial class ChatViewPage : Page
     {
         static CancellationTokenSource source = new CancellationTokenSource();
+        SoundPlayer sp = new SoundPlayer();
         static CancellationToken token = source.Token;
         static List<Message> messages = new List<Message>();
         Chats _currentChat;
         int chatID;
         ListView _messages;
+        string Error;
         Timer timer;
         public ChatViewPage(Chats chat)
         {
             InitializeComponent();
+            sp.Stream = Properties.Resources.snapchat_meloboom;
             _currentChat = chat;
         }
 
@@ -42,6 +46,7 @@ namespace ClientChat.Pages
                 List<Message> Newmessages = Connector.GetMessagesFromChat(chatID, UserData.UserId, messagesCount).ToList();
                 if (Newmessages.Count() != 0)
                 {
+                    if (messagesCount != 0) sp.Play();
                     foreach (Message msg in Newmessages)
                     {
                         messages.Add(msg);
@@ -59,11 +64,10 @@ namespace ClientChat.Pages
 
         private void SendBtn_Click(object sender, RoutedEventArgs e)
         {
-            string Err;
             int id = -1;
             int t = Chat_id.Items.Count;
             UserData.UserLogin = UserData.UserLogin;
-            Connector.SendMessage(_currentChat.id, UserData.UserLogin, NewMessage.Text, false, out Err, out id);
+            if (Connector.SendMessage(_currentChat.id, UserData.UserLogin, NewMessage.Text, out Error, out id) == -1) { MessageBox.Show(Error); return; }
             NewMessage.Clear();
             if (t != 0) Chat_id.ScrollIntoView(Chat_id.Items[t - 1]);
         }
@@ -97,6 +101,11 @@ namespace ClientChat.Pages
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void Files_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MessagePart.Navigate(new Pages.DialogFiles(_currentChat.id));
         }
     }
 }

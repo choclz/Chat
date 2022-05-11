@@ -30,9 +30,11 @@ namespace ClientChat
         {
             get
             {
-                return !type? "Личный чат" : "Групповая беседа";
+                return !type ? "Личный чат" : "Групповая беседа";
             }
         }
+
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Messages> Messages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

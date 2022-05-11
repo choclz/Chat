@@ -27,7 +27,13 @@ namespace ClientChat
         public int RequestFrom { get; set; }
         public System.DateTime StartTime { get; set; }
         public Nullable<System.DateTime> EndTime { get; set; }
-    
+        public string TasksCount
+        {
+            get
+            {
+                return Connector.TasksReady(id);
+            }
+        }
         public virtual Chats Chats { get; set; }
         public virtual RequestStatus RequestStatus { get; set; }
         public virtual Users Users { get; set; }

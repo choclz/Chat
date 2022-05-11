@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Data;
+using System.Data.Entity;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -31,38 +33,55 @@ namespace ClientChat
         /// Метод получения списка всех пользователей
         /// </summary>
         /// <returns>Возращает список всех пользователей</returns>
-        public static List<Users> GetUsers()
+        public static List<Users> GetUsers(out string Errors)
         {
             try
             {
+                Errors = null;
                 return _context.Users.ToList();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                Errors = "Ошибка выборки пользователей системы, операция не завершена. Код ошибки \n" + ex.Message;
                 return null;
             }
         }
-
-        public static void Update()
+        /// <summary>
+        /// Обновление данных в таблицах
+        /// </summary>
+        /// <param name="Error">Ошибки в работе программы</param>
+        public static void Update(out string Error)
         {
-            _context.ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
+            try
+            {
+                _context.ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
+                Error = null;
+            }
+            catch (Exception ex)
+            {
+                Error = "Ошибка обновления данных!\n" + ex.Message;
+            }
         }
-
-        public static int Save()
+        /// <summary>
+        /// Операция сохраниния данных в базе
+        /// </summary>
+        /// <param name="Error">Статус операции</param>
+        /// <returns>Статус ошибки, где -1 - ошибка, и наоборот</returns>
+        public static int Save(out string Error)
         {
             try
             {
                 _context.SaveChanges();
+                Error = "Данные успешно сохранены!";
                 return 1;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Error = ex.Message;
                 return -1;
             }
         }
-
         public static bool CheckPass(string pass, string Nick)
         {
             try
@@ -277,29 +296,42 @@ namespace ClientChat
                 return false;
             }
         }
-        public static int EditUser(string Nick, string FN, string SN, string LN, string Status, int Role, out string Errors)
+        public static int AddRequest(Requests request, out string Errors)
         {
-            Users user = GetUser(Nick);
-            if (Role < 1 || Role > 4) { Errors = "Роль пользователя указана с ошибкой, проверьте правильность введённых данных!"; return -1; }
-            if (Status.Length > 200) { Errors = "Статус должен быть не длиннее 200 символов!"; return -1; }
-            user.nickname = Nick;
-            user.FName = FN;
-            user.SName = SN;
-            user.Role = Role;
-            user.ThName = LN;
-            user.Status = Status;
+            if (request.StartTime < DateTime.Now.AddDays(-1)) { Errors = "Дата начала должна быть больше текущей даты!"; return -1; }
+            if (request.EndTime == null) { Errors = "Не задана дата окончания выполнения!"; return -1; }
+            if (request.EndTime < request.StartTime) { Errors = "Дата окончания выполнения должна быть больше даты старта!"; return -1; }
+            if (string.IsNullOrWhiteSpace(request.name)) { Errors = "Имя заявки не задано!"; return -1; }
+            request.status = 1;
             try
             {
-                _context.SaveChanges();
-                Errors = "Данные пользователя успешно изменены!";
-                return 1;
+                MessengerEntities.GetContext().Requests.Add(request);
+                return Save(out Errors);
             }
-            catch (Exception ex)
+            catch
             {
-                Errors = "Произошла внутренняя ошибка, повторите позже.";
-                Console.WriteLine(ex.ToString());
-                return -1;
+                Errors = "Невозможно добавить заявку, попробуйте позже."; return -1;
             }
+        }
+        public static int AddTask(Tasks request, out string Errors)
+        {
+            if (request.StartTime < DateTime.Now.AddDays(-1)) { Errors = "Дата начала должна быть больше текущей даты!"; return -1; }
+            if (request.EndTime == null) { Errors = "Не задана дата окончания выполнения!"; return -1; }
+            if (request.StartTime < request.Requests.StartTime) { Errors = "Дата начала выполнения задачи не может быть меньше даты начала выполнения заявки!"; return - 1; }
+            if (request.EndTime > request.Requests.EndTime) { Errors = "Дата окончания выполнения задачи не может быть больше даты окончания заявки!"; return - 1; }
+            if (request.EndTime < request.StartTime) { Errors = "Дата окончания выполнения должна быть больше даты старта!"; return -1; }
+            if (string.IsNullOrWhiteSpace(request.TaskName)) { Errors = "Имя задачи не задано!"; return -1; }
+            if (string.IsNullOrWhiteSpace(request.Description)) { Errors = "Описание задачи не задано!"; return -1; }
+            try
+            {
+                MessengerEntities.GetContext().Tasks.Add(request);
+                return Save(out Errors);
+            }
+            catch
+            {
+                Errors = "Невозможно добавить задачу, попробуйте позже."; return -1;
+            }
+
         }
         public static int CreateChat(string nick, string[] nick2, string name, out string Errors)
         {
@@ -309,7 +341,8 @@ namespace ClientChat
             {
                 if (!IsUserExist(nn)) { Errors = "Один из участников не существует в системе!"; return -1; }
             }
-            if (String.IsNullOrWhiteSpace(name)) { Errors = "Название беседы должно быть заполнено!"; return -1; }
+            if (string.IsNullOrWhiteSpace(name)) { Errors = "Название беседы должно быть заполнено!"; return -1; }
+            if (nick2.Length == 0) { Errors = "Отсутсвуют участники беседы!"; return -1; }
             if (nick2.Length > 1) type = 1;
             Chats chats = new Chats();
             List<UsersChats> uc = new List<UsersChats>();
@@ -327,7 +360,6 @@ namespace ClientChat
                 _context.UsersChats.AddRange(uc);
                 _context.SaveChanges();
                 Errors = "Ошибок не обнаружено, чат успешно создан!";
-
                 return 1;
             }
             catch (Exception ex)
@@ -336,47 +368,39 @@ namespace ClientChat
                 return -1;
             }
         }
-        /*public static int CreateChat(string nick, string nick2, string name, int type, out string Errors)
+        public static int AddFile(byte[] file, string name, out int FileID)
         {
-            if (!IsUserExist(nick)) { Errors = "Данного администратора не существует в системе!"; return -1; }
-            if (!IsUserExist(nick2)) { Errors = "Один из участников не существует в системе!"; return -1; }
-            if (String.IsNullOrWhiteSpace(name)) { Errors = "Название беседы должно быть заполнено!"; return -1; }
-            if (type < 0 || type > 1) { Errors = "Тип беседы - число от 0 до 1, где 0 - личная беседа, 1 - общий чат"; return -1; }
-            Chats chats = new Chats();
-            List<UsersChats> uc = new List<UsersChats>();
-            chats.admin = GetUserId(nick);
-            chats.name = name;
-            chats.type = type == 1;
             try
             {
-                _context.Chats.Add(chats);
-                uc.Add(new UsersChats { ChatId = chats.id, UserId = chats.admin });
-                uc.Add(new UsersChats { ChatId = chats.id, UserId = GetUserId(nick2) });
-                _context.UsersChats.AddRange(uc);
-                _context.SaveChanges();
-                Errors = "Ошибок не обнаружено, чат успешно создан!";
-
-                return _context.Chats.Last().id;
+                FileID = _context.MessageFiles.Add(new MessageFiles() { Name = name, File = file }).id;
+                return 1;
             }
-            catch (Exception ex)
+            catch
             {
-                Errors = "Ошибка регистрации нового чата - " + ex.Message;
+                FileID = -1;
                 return -1;
             }
-        }*/
+        }
+        public static string TasksReady(int ReqId)
+        {
+            int all_current = _context.UserTask.Where(p => p.Tasks.ReqId == ReqId).Count();
+            int done = _context.UserTask.Where(p => p.Tasks.ReqId == ReqId && p.status == 2).Count();
+            return done + "/" + all_current;
+        }
         public static bool ChatExist(int chatId) => _context.Chats.Where(p => p.id == chatId).Count() > 0 ? true : false;
         public static bool CanSendMessage(int userID, int ChatsId) => _context.UsersChats.Where(p => p.ChatId == ChatsId && p.UserId == userID).Count() > 0 ? true : false;
-        public static int SendMessage(int chatId, string nickname, string text, bool hasFiles, out string Errors, out int messageId)
+        public static int SendMessage(int chatId, string nickname, string text, out string Errors, out int messageId, int? hasFiles = null)
         {
             if (!ChatExist(chatId)) { Errors = "Чат не существует, проверьте исходные данные!"; messageId = -1; return -1; }
             if (!IsUserExist(nickname)) { Errors = "Пользователь - отправитель не существует!"; messageId = -1; return -1; }
             if (!CanSendMessage(GetUserId(nickname), chatId)) { Errors = "Пользователь не состоит в данном чате!"; messageId = -1; return -1; }
+            if (string.IsNullOrWhiteSpace(text)) { Errors = "Сообщение не может быть пустым!"; messageId = -1; return -1; }
             Messages msg = new Messages();
             msg.ChatId = chatId;
             msg.from = GetUserId(nickname);
             msg.text = text;
-            msg.Filles = hasFiles;
-            msg.date = DateTime.UtcNow;
+            msg.Files = hasFiles;
+            msg.date = DateTime.Now;
             try
             {
                 _context.Messages.Add(msg);
@@ -409,7 +433,6 @@ namespace ClientChat
                 return Output;
             }
         }
-
         public static List<Message> GetMessagesFromChat(int chat_id, int userId, int skip)
         {
             List<Message> Output = new List<Message>();

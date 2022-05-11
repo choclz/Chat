@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:ClientChat.Pages"
       mc:Ignorable="d" 
       Height="450" Width="630"
-      Title="Tasks" Loaded="Page_Loaded">
+      Title="Tasks" IsVisibleChanged="Page_IsVisibleChanged">
 
     <Grid Background="Aquamarine">
         <Grid.RowDefinitions>
@@ -26,8 +26,8 @@
                 <DataGridTextColumn Header="Название" Width="auto" Binding="{Binding name}"/>
                 <DataGridTextColumn Header="Статус заявки" Width="auto" Binding="{Binding RequestStatus.name}"/>
                 <DataGridTextColumn Header="Поставщик" Width="auto" Binding="{Binding Users.nickname}"/>
-                <DataGridTextColumn Header="Дата начала исполнения" Width="auto" Binding="{Binding StartTime}"/>
-                <DataGridTextColumn Header="Дата завершения" Width="auto" Binding="{Binding EndTime}"/>
+                <DataGridTextColumn Header="Дата начала исполнения"  Width="auto" Binding="{Binding StartTime, StringFormat=d}"/>
+                <DataGridTextColumn Header="Дата завершения" Width="auto" Binding="{Binding EndTime, StringFormat=d}"/>
                 <DataGridTextColumn Header="Задачи" Width="auto" x:Name="TasksStatus" Binding="{Binding TasksCount}"/>
                 <DataGridTemplateColumn Header="Редактирование" Width="auto">
                     <DataGridTemplateColumn.CellTemplate>

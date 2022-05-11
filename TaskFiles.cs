@@ -22,7 +22,7 @@ namespace ClientChat
     
         public int id { get; set; }
         public byte[] File { get; set; }
-        public int TaskId { get; set; }
+        public string Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserTask> UserTask { get; set; }
