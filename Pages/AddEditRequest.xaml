@@ -5,10 +5,9 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ClientChat.Pages"
       mc:Ignorable="d" 
-      Height="450" Width="630"
       Title="AddEditRequest">
 
-    <Grid Background="AliceBlue">
+    <Grid Background="AliceBlue" MinHeight="500" MinWidth="900">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="239*"/>
             <ColumnDefinition Width="391*"/>
@@ -16,18 +15,18 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto" MinHeight="182"/>
-            <RowDefinition Height="auto" MinHeight="25"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Label Content="Название"></Label>
+        <Label Content="Название"/>
         <TextBox Name="RequestName" Grid.Column="1" Text="{Binding name}"/>
-        <Label Content="Статус заявки" Grid.Row="1"></Label>
+        <Label Content="Статус заявки" Grid.Row="1"/>
         <ComboBox Name="ReqStatus" Grid.Row="1" Grid.Column="1" SelectedIndex="{Binding status}" DisplayMemberPath="name"></ComboBox>
         <Calendar Grid.Column="1" Grid.Row="2" Name="StartTime" SelectedDate="{Binding StartTime}"/>
-        <Label Content="Дата начала исполнения" Grid.Row="2"></Label>
-        <Label Content="Дата завершения исполнения" Grid.Row="3"></Label>
+        <Label Content="Дата начала исполнения" Grid.Row="2"/>
+        <Label Content="Дата завершения исполнения" Grid.Row="3"/>
         <Calendar Grid.Column="1" Grid.Row="3" Name="EndTime" SelectedDate="{Binding EndTime}"/>
         <Button Name="AddRequest" Content="Сохранить" Grid.Row="4" Grid.ColumnSpan="2" Click="AddRequest_Click"/>
         <Button Name="BackBtn" Content="Назад" Grid.Row="5" Grid.ColumnSpan="2" Click="BackBtn_Click"/>

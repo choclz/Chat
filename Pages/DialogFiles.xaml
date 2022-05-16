@@ -5,13 +5,12 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ClientChat.Pages"
       mc:Ignorable="d" 
-      Width="630" Height="450"
       Title="DialogFiles" IsVisibleChanged="Page_IsVisibleChanged">
 
-    <Grid>
+    <Grid MinWidth="900">
         <Grid.RowDefinitions>
-            <RowDefinition Height="68*"/>
-            <RowDefinition Height="7*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <DataGrid x:Name="Files" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="Files_MouseDoubleClick">
             <DataGrid.Columns>

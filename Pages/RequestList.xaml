@@ -5,15 +5,14 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ClientChat.Pages"
       mc:Ignorable="d" 
-      Height="450" Width="630"
       Title="Tasks" IsVisibleChanged="Page_IsVisibleChanged">
 
-    <Grid Background="Aquamarine">
+    <Grid MinWidth="900" Background="Aquamarine">
         <Grid.RowDefinitions>
-            <RowDefinition Height="27"/>
-            <RowDefinition Height="47"/>
-            <RowDefinition Height="345*"/>
-            <RowDefinition Height="31*"/>
+            <RowDefinition Height="2.7*"/>
+            <RowDefinition Height="4.7*"/>
+            <RowDefinition Height="34.5*"/>
+            <RowDefinition Height="3.1*"/>
         </Grid.RowDefinitions>
         <Label HorizontalAlignment="Center">Задачи беседы</Label>
         <Button x:Name="BackBtn" Content="Назад" Width="60" HorizontalAlignment="Left" Click="BackBtn_Click"/>

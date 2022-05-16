@@ -5,13 +5,12 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ClientChat.Pages"
       mc:Ignorable="d" 
-      Height="450" Width="630"
       Title="AddEditTask">
 
-    <Grid>
+    <Grid MinWidth="900">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="239*"/>
-            <ColumnDefinition Width="391*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -26,7 +25,7 @@
         <TextBox Name="RequestName" Grid.Column="1" Text="{Binding TaskName}"/>
         <Label Grid.Row="1" Content="Описание"/>
         <TextBox Name="Desc" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Description}"/>
-        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="136,0" Width="358">
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center">
             <StackPanel>
                 <Label Content="Дата начала исполнения"></Label>
                 <Calendar Name="StartTime" SelectedDate="{Binding StartTime}"/>

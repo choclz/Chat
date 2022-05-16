@@ -7,56 +7,63 @@
       xmlns:local="clr-namespace:ClientChat"
       mc:Ignorable="d" 
       IsVisibleChanged="Page_IsVisibleChanged"
-      Width="800" Height="450"
       Title="MessagePage">
-    <Grid>
+    <Grid MinHeight="500">
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
-            <RowDefinition Height="330"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="*" MaxHeight="40"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="*" MaxHeight="40"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="170"/>
-            <ColumnDefinition Width="630"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5*"/>
         </Grid.ColumnDefinitions>
         <Button Content="Обновить сведения" Click="UpdateInfo"/>
-        <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" x:Name="UsersList" MouseDoubleClick="UsersList_MouseDoubleClick" Width="170" Grid.Row="1">
+        <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" x:Name="UsersList" MouseDoubleClick="UsersList_MouseDoubleClick" Grid.Row="1">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="170"></ColumnDefinition>
+                            <ColumnDefinition Width="2*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="20"></RowDefinition>
-                            <RowDefinition Height="20"></RowDefinition>
-                            <RowDefinition Height="20"></RowDefinition>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <TextBlock Text="{Binding name}" Grid.Row="0"></TextBlock>
-                        <TextBlock Text="{Binding TextType}" Grid.Row="1"></TextBlock>
+                        <TextBlock Text="{Binding name}" TextWrapping="Wrap" FontWeight="Medium" Grid.Row="0"/>
+                        <TextBlock Text="{Binding TextType}" Grid.Row="1"/>
                         <Button x:Name="DelBtn" Content="Удалить" Grid.Row="2" Click="DelBtn_Click"/>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Frame Name="ChatView" Grid.Column="1" Grid.RowSpan="4" NavigationUIVisibility="Hidden" JournalOwnership="OwnsJournal">
+        <Frame MinWidth="900" Name="ChatView" Grid.Column="1" Grid.RowSpan="4" NavigationUIVisibility="Hidden" JournalOwnership="OwnsJournal">
         </Frame>
         <Button x:Name="AddChatBtn" Content="Новый чат" Grid.Row="2" Click="AddChatBtn_Click"></Button>
-        <StackPanel Orientation="Horizontal" Grid.Row="3" Name="ProfInfo" Background="AntiqueWhite">
-            <Image Width="50" Stretch="UniformToFill">
-                <Image.Source>
-                    <Binding Path="Photo">
-                        <Binding.TargetNullValue>
-                            <ImageSource>/Resources/NullAvatar.jpg</ImageSource>
-                        </Binding.TargetNullValue>
-                    </Binding>
-                </Image.Source>
-            </Image>
-            <StackPanel Width="120" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="{Binding nickname}"/>
-                <Button x:Name="EditProfile" Content="Редактировать" Click="EditProfile_Click"/>
-            </StackPanel>
-        </StackPanel>
+        <Grid Grid.Row="3" Name="ProfInfo" Background="AntiqueWhite">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+            <Ellipse>
+                <Ellipse.Fill>
+                    <ImageBrush>
+                        <ImageBrush.ImageSource>
+                            <Binding Path="Photo">
+                                <Binding.TargetNullValue>
+                                    <ImageSource>/Resources/NullAvatar.jpg</ImageSource>
+                                </Binding.TargetNullValue>
+                            </Binding>
+                        </ImageBrush.ImageSource>
+                    </ImageBrush>
+                </Ellipse.Fill>
+            </Ellipse>
+            <TextBlock Text="{Binding nickname}" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="1"/>
+            <Button Background="Transparent" BorderThickness="0" x:Name="EditProfile" Click="EditProfile_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right" Grid.Column="1">
+                <Image Source="/Resources/EditBtn.png" Width="30"/>
+            </Button>
+        </Grid>
     </Grid>
 </Page>

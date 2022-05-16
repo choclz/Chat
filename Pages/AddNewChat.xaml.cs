@@ -23,6 +23,7 @@ namespace ClientChat.Pages
         List<Users> users = new List<Users>();
         List<Users> AllUsers;
         string Errors;
+        List<Users> Selected;
         public AddNewChat()
         {
             InitializeComponent();
@@ -33,7 +34,8 @@ namespace ClientChat.Pages
             {
                 MessageBox.Show(Errors);
             }
-            UsersToAddLV.ItemsSource = AllUsers;
+            Selected = AllUsers;
+            UsersToAddLV.ItemsSource = Selected;
             UsersToDelLV.ItemsSource = users;
         }
 
@@ -41,6 +43,9 @@ namespace ClientChat.Pages
         {
             users.Add((sender as Button).DataContext as Users);
             AllUsers.Remove((sender as Button).DataContext as Users);
+            Selected = AllUsers;
+            ChatName.Clear();
+            UsersToAddLV.ItemsSource = Selected;
             UsersToDelLV.Items.Refresh();
             UsersToAddLV.Items.Refresh();
         }
@@ -64,7 +69,7 @@ namespace ClientChat.Pages
 
         private void User_KeyDown(object sender, KeyEventArgs e)
         {
-            List<Users> Selected = AllUsers.Where(p => p.nickname.Contains(User.Text.ToLower())).ToList();
+            Selected = AllUsers.Where(p => p.nickname.Contains(User.Text.ToLower())).ToList();
             UsersToAddLV.ItemsSource = Selected;
             UsersToAddLV.Items.Refresh();
         }
@@ -77,6 +82,11 @@ namespace ClientChat.Pages
         private void Check_Profile(object sender, RoutedEventArgs e)
         {
             Manager.MessagePart.Navigate(new Pages.ProfileInfo(((sender as Button).DataContext as Users).id));
+        }
+
+        private void UsersToAddLV_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
+        {
+
         }
     }
 }

@@ -4,11 +4,10 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ClientChat.Pages"
-      mc:Ignorable="d" 
-      Height="450" Width="630"
+      mc:Ignorable="d"
       Title="AddEditFile">
 
-    <Grid>
+    <Grid MinHeight="500" MinWidth="900">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
@@ -16,7 +15,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Label Content="Файл" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <StackPanel Name="PlaceForFile" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">

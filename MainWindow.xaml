@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClientChat"
         mc:Ignorable="d"
-        ResizeMode="CanMinimize"
-        Title="Бизнес-мессенджер для ИСПО" Height="480" Width="800">
+        ResizeMode="CanResizeWithGrip"
+        Title="Бизнес-мессенджер для ИСПО" WindowStartupLocation="CenterScreen"  MinHeight="600" MinWidth="1280">
     <Grid>
-        <Frame Name="MainFrame" NavigationUIVisibility="Hidden" Content="Frame" HorizontalAlignment="Left" Height="450" VerticalAlignment="Top" Width="800" Margin="0,0,-6,0"/>
+        <Frame Name="MainFrame" NavigationUIVisibility="Hidden" Content="Frame"/>
     </Grid>
 </Window>

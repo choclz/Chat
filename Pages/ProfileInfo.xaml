@@ -5,10 +5,9 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ClientChat.Pages"
       mc:Ignorable="d" 
-      Height="450" Width="630"
       Title="ProfileInfo">
 
-    <Grid>
+    <Grid MinHeight="500" MinWidth="1200">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -22,8 +21,8 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="430"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="4.3*"/>
         </Grid.ColumnDefinitions>
         <Label Content="Никнейм пользователя" Grid.ColumnSpan="2"/>
         <TextBox Text="{Binding nickname}" Grid.Column="2" IsEnabled="False" IsReadOnly="True"/>
@@ -37,7 +36,7 @@
         <ComboBox  SelectedItem="{Binding Roles}" DisplayMemberPath="name"  Name="Role" Grid.Column="2" Grid.Row="4" IsEnabled="False"/>
         <Label Content="Фото пользователя" Grid.Row="5"/>
         <StackPanel Grid.Column="2" Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Image Width="50" Stretch="UniformToFill">
+            <Image Width="50" Stretch="Fill">
                 <Image.Source>
                     <Binding Path="Photo">
                         <Binding.TargetNullValue>
@@ -50,7 +49,7 @@
             <Button x:Name="DelPhoto" Content="Удалить фото" Click="DelPhoto_Click"/>
         </StackPanel>
         <Label Content="Описание профиля" Grid.Row="6"/>
-        <TextBox Text="{Binding Status}" Width="430" TextWrapping="WrapWithOverflow" Grid.Column="2" Grid.Row="6"/>
+        <TextBox Text="{Binding Status}" TextWrapping="Wrap" Grid.Column="2" Grid.Row="6"/>
         <Button x:Name="SaveBtn" Click="SaveBtn_Click" Content="Сохранить" Grid.Row="7" Grid.ColumnSpan="2" />
         <StackPanel Grid.RowSpan="8" Grid.ColumnSpan="2" IsEnabled="False" Background="Transparent" Name="CanEdit"/>
         <Button x:Name="BackBtn" Content="Назад" Click="BackBtn_Click" Grid.Row="8" Grid.ColumnSpan="2"/>

@@ -317,8 +317,6 @@ namespace ClientChat
         {
             if (request.StartTime < DateTime.Now.AddDays(-1)) { Errors = "Дата начала должна быть больше текущей даты!"; return -1; }
             if (request.EndTime == null) { Errors = "Не задана дата окончания выполнения!"; return -1; }
-            if (request.StartTime < request.Requests.StartTime) { Errors = "Дата начала выполнения задачи не может быть меньше даты начала выполнения заявки!"; return - 1; }
-            if (request.EndTime > request.Requests.EndTime) { Errors = "Дата окончания выполнения задачи не может быть больше даты окончания заявки!"; return - 1; }
             if (request.EndTime < request.StartTime) { Errors = "Дата окончания выполнения должна быть больше даты старта!"; return -1; }
             if (string.IsNullOrWhiteSpace(request.TaskName)) { Errors = "Имя задачи не задано!"; return -1; }
             if (string.IsNullOrWhiteSpace(request.Description)) { Errors = "Описание задачи не задано!"; return -1; }
