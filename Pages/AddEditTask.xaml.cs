@@ -21,7 +21,6 @@ namespace ClientChat.Pages
     public partial class AddEditTask : Page
     {
         string Error;
-        List<Tasks> tasks = Connector._context.Tasks.ToList();
         Tasks task = new Tasks();
 
         public AddEditTask(Tasks tasks, int ReqId)
@@ -29,7 +28,7 @@ namespace ClientChat.Pages
             InitializeComponent();
             if (tasks != null) task = tasks;
             DataContext = task;
-            if (this.task.id == 0)
+            if (task.id == 0)
             {
                 task.ReqId = ReqId;
                 task.NeedFile = false;
@@ -44,17 +43,13 @@ namespace ClientChat.Pages
             if (task.id == 0)
             {
                 if (Connector.AddTask(task, out Error) == -1) { MessageBox.Show(Error); return; }
-                List<int> UsersID = Connector._context.UsersChats.Where(p => p.ChatId == task.Requests.RequestFrom && p.UserId != UserData.UserId).Select(p => p.UserId).ToList();
-                foreach (int user in UsersID)
-                {
-                    Connector._context.UserTask.Add(new UserTask(){ UserId = user, TaskId = task.id, status = 1, Comment = "Ответ отсутствует" });
-                }
-                if (Connector.SendMessage(task.Requests.RequestFrom, UserData.UserLogin, "В данном диалоге создана новая задача!", out Err, out a) == -1)
+                if (Connector.GenerateTasks(task) == -1) { MessageBox.Show("Ошибка распределения заявок между пользователями. Попробуйте позже!"); return; }
+                if (Connector.SendMessage(task.Requests.RequestFrom, UserData.UserLogin, $"В данном диалоге создана новая задача! \nЗаявка:{task.Requests.name}\nЗадача:{task.TaskName}", out Err, out a) == -1)
                 {
                     MessageBox.Show(Error);
                     return;
                 }
-                Connector.Save(out Error); MessageBox.Show(Error);
+                Connector.Save(out Error);
                 Manager.MessagePart.GoBack();
                 return;
             }
@@ -65,8 +60,9 @@ namespace ClientChat.Pages
             if (task.EndTime < task.StartTime) { MessageBox.Show("Дата окончания выполнения должна быть больше даты старта!"); return; }
             if (string.IsNullOrWhiteSpace(task.TaskName)) { MessageBox.Show(Error = "Имя задачи не задано!"); return; }
             if (string.IsNullOrWhiteSpace(task.Description)) { MessageBox.Show(Error = "Описание задачи не задано!"); return; }
-            Connector.SendMessage(task.Requests.RequestFrom, UserData.UserLogin, $"В данном диалоге обновлена задача - \"{task.TaskName}\"! ", out Err, out a);
             Connector.Save(out Error); MessageBox.Show(Error);
+            Connector.SendMessage(task.Requests.RequestFrom, UserData.UserLogin, $"В данном диалоге обновлена задача - \nЗаявка:{task.Requests.name} \nЗадача:{task.TaskName}", out Err, out a);
+            Connector.Save(out Error);
             Manager.MessagePart.GoBack();
         }
 

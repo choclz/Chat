@@ -53,7 +53,7 @@ namespace ClientChat.Pages
                     Connector._context.Messages.RemoveRange(FilesForRemoving);
                     Connector.Save(out Error);
                     MessageBox.Show(Error);
-                    files = Connector._context.Messages.Where(p => p.ChatId == id && p.Files != null).Include(p => p.MessageFiles).ToList();
+                    files = Connector.GetChatFiles(id);
                     Files.ItemsSource = files;
                 }
                 catch (Exception ex)
@@ -97,7 +97,7 @@ namespace ClientChat.Pages
                         MessageBox.Show(Error);
                         return;
                     }
-                    files = Connector._context.Messages.Where(p => p.ChatId == id && p.Files != null).Include(p => p.MessageFiles).ToList();
+                    files = Connector.GetChatFiles(id);
                     Files.ItemsSource = files;
                 }
             }

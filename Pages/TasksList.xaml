@@ -14,7 +14,7 @@
             <RowDefinition Height="40*"/>
         </Grid.RowDefinitions>
         <Button x:Name="BackBtn" Content="Назад" Width="60" HorizontalAlignment="Left" Click="BackBtn_Click"/>
-        <Label Name="RequestName" HorizontalAlignment="Center" HorizontalContentAlignment="Center"></Label>
+        <Label Name="RequestName" HorizontalAlignment="Center" HorizontalContentAlignment="Center"/>
         <DataGrid Grid.Row="1" x:Name="TaskDG" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="TaskDG_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название" Width="auto" Binding="{Binding TaskName}"/>
@@ -22,10 +22,10 @@
                 <DataGridTextColumn Header="Дата начала" Width="auto" Binding="{Binding StartTime, StringFormat=d}"/>
                 <DataGridTextColumn Header="Дата завершения" Width="auto" Binding="{Binding EndTime, StringFormat=d}"/>
                 <DataGridTextColumn Header="Файл?" Width="auto" Binding="{Binding FileNeed}"/>
-                <DataGridTemplateColumn Header="Редактирование" Width="auto">
+                <DataGridTemplateColumn Header="Редактирование" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button x:Name="AddEditTask" Content="Редактировать" Click="AddEditTask_Click"></Button>
+                            <Button x:Name="AddEditTask" Content="Редактировать" Click="AddEditTask_Click"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

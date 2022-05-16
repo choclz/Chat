@@ -29,6 +29,70 @@ namespace ClientChat
             }
             return hash.ToString();
         }
+        public static List<Tasks> GetTasks(int ReqId)
+        {
+            try
+            {
+                return _context.Tasks.Where(p => p.ReqId == ReqId).Include(p => p.Requests).ToList();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        public static List<Requests> GetRequestsWithParam(int chatId)
+        {
+            try
+            {
+                return _context.Requests.Where(p => p.RequestFrom == chatId).Include(p => p.Users).ToList();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        public static List<UserTask> GetTaskFiles(int taskId)
+        {
+            try
+            {
+                return _context.UserTask.Where(p => p.TaskId == taskId && p.FileId != null).ToList();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        public static bool RequestAdmin(int ReqId)
+        {
+            try
+            {
+                return _context.Requests.Where(p => p.id == ReqId).First().customer == UserData.UserId;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        public static List<Roles> GetRoles()
+        {
+            try
+            {
+                return _context.Roles.ToList();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        public static int RemoveUserTasks(List<UserTask> tasks)
+        {
+            try
+            {
+                _context.UserTask.RemoveRange(tasks);
+                return 1;
+            }
+            catch { return -1;}
+        }
         /// <summary>
         /// Метод получения списка всех пользователей
         /// </summary>
@@ -47,6 +111,47 @@ namespace ClientChat
                 return null;
             }
         }
+
+        public static List<Messages> GetChatFiles(int id)
+        {
+            try
+            {
+                return _context.Messages.Where(p => p.ChatId == id && p.Files != null).Include(p => p.MessageFiles).ToList();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        public static int RemoveTasks(List<Tasks> tasks)
+        {
+            try
+            {
+                _context.Tasks.RemoveRange(tasks);
+                return 1;
+            }
+            catch
+            {
+                return -1;
+            }
+        }
+        public static int GenerateTasks(Tasks task)
+        {
+            try
+            {
+                List<int> UsersID = _context.UsersChats.Where(p => p.ChatId == task.Requests.RequestFrom && p.UserId != UserData.UserId).Select(p => p.UserId).ToList();
+                foreach (int user in UsersID)
+                {
+                    _context.UserTask.Add(new UserTask() { UserId = user, TaskId = task.id, status = 1, Comment = "Ответ отсутствует" });
+                }
+                _context.SaveChanges();
+                return 1;
+            }
+            catch
+            {
+                return -1;
+            }
+        }
         /// <summary>
         /// Обновление данных в таблицах
         /// </summary>
@@ -61,6 +166,28 @@ namespace ClientChat
             catch (Exception ex)
             {
                 Error = "Ошибка обновления данных!\n" + ex.Message;
+            }
+        }
+        public static int FindRequestIdByName(string name)
+        {
+            try
+            {
+                return _context.RequestStatus.Where(p => p.name == name).First().id;
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+        }
+        public static List<RequestStatus> GetRequestStatuses()
+        {
+            try
+            {
+                return _context.RequestStatus.ToList();
+            }
+            catch
+            {
+                return null;
             }
         }
         /// <summary>
@@ -110,6 +237,18 @@ namespace ClientChat
                 return null;
             }
         }
+        public static Users GetUser(int id)
+        {
+            try
+            {
+                return _context.Users.Where(p => p.id == id).SingleOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
         /// <summary>
         /// Получает роль пользователя
         /// </summary>
@@ -119,7 +258,7 @@ namespace ClientChat
         {
             try
             {
-                return Convert.ToInt32(MessengerEntities.GetContext().Users.FirstOrDefault(p => p.id == userId));
+                return Convert.ToInt32(_context.Users.FirstOrDefault(p => p.id == userId));
             }
             catch (Exception ex)
             {
@@ -305,7 +444,7 @@ namespace ClientChat
             request.status = 1;
             try
             {
-                MessengerEntities.GetContext().Requests.Add(request);
+                _context.Requests.Add(request);
                 return Save(out Errors);
             }
             catch
@@ -322,7 +461,7 @@ namespace ClientChat
             if (string.IsNullOrWhiteSpace(request.Description)) { Errors = "Описание задачи не задано!"; return -1; }
             try
             {
-                MessengerEntities.GetContext().Tasks.Add(request);
+                _context.Tasks.Add(request);
                 return Save(out Errors);
             }
             catch
@@ -436,7 +575,7 @@ namespace ClientChat
             List<Message> Output = new List<Message>();
             try
             {
-                var mes = MessengerEntities.GetContext().Messages.Where(p => p.ChatId == chat_id).ToList().Skip(skip);
+                var mes = _context.Messages.Where(p => p.ChatId == chat_id).ToList().Skip(skip);
                 foreach (Messages mess in mes)
                 {
                     Output.Add(new Message(mess.id, mess.Users.nickname + $"({mess.Users.FName} {mess.Users.SName})", mess.text, mess.date, mess.from == userId, mess.Users.Photo));
@@ -452,9 +591,9 @@ namespace ClientChat
         {
             if (Author)
             {
-                return MessengerEntities.GetContext().Requests.Where(p => p.customer == userID && p.RequestFrom == chatId).ToList();
+                return _context.Requests.Where(p => p.customer == userID && p.RequestFrom == chatId).ToList();
             }
-            return MessengerEntities.GetContext().Requests.Where(p => p.customer != userID && p.RequestFrom == chatId).ToList();
+            return _context.Requests.Where(p => p.customer != userID && p.RequestFrom == chatId).ToList();
         }
     }
 }

@@ -96,7 +96,7 @@ namespace ClientChat.Pages
                         MessageBox.Show(Error);
                         return;
                     }
-                    req = MessengerEntities.GetContext().Requests.Where(p => p.RequestFrom == chatId).Include(p => p.Users).ToList();
+                    req = Connector.GetRequestsWithParam(chatId);
                     TasksFromYou.IsChecked = true;
                     RequestDG.ItemsSource = req.Where(p => p.customer == UserData.UserId).ToList();
                 }

@@ -59,7 +59,7 @@ namespace ClientChat
                         return;
                     }
                     UsersList.ItemsSource = Connector.GetChats(UserData.UserId).ToList();
-                    ProfInfo.DataContext = Connector._context.Users.Where(p => p.id == UserData.UserId).First();
+                    ProfInfo.DataContext = Connector.GetUser(UserData.UserLogin);
                 }
             }
         }
@@ -74,7 +74,7 @@ namespace ClientChat
                     return;
                 }
                 UsersList.ItemsSource = Connector.GetChats(UserData.UserId).ToList();
-                ProfInfo.DataContext = Connector._context.Users.Where(p => p.id == UserData.UserId).First();
+                ProfInfo.DataContext = Connector.GetUser(UserData.UserLogin);
             }
         }
 

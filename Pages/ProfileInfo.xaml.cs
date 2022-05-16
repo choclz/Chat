@@ -21,7 +21,7 @@ namespace ClientChat.Pages
     /// </summary>
     public partial class ProfileInfo : Page
     {
-        List<Roles> UsersRoles = Connector._context.Roles.ToList();
+        List<Roles> UsersRoles = Connector.GetRoles();
         Users user = new Users();
         public ProfileInfo(int userId)
         {
@@ -31,7 +31,7 @@ namespace ClientChat.Pages
                 userId = UserData.UserId;
                 CanEdit.Visibility = Visibility.Hidden;
             }
-            user = Connector._context.Users.Where(p => p.id == userId).First();
+            user = Connector.GetUser(userId);
             Role.ItemsSource = UsersRoles;
             DataContext = user;
         }
@@ -61,7 +61,8 @@ namespace ClientChat.Pages
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            Connector._context.SaveChanges();
+            Connector.Save(out string Error);
+            MessageBox.Show(Error);
             Manager.MessagePartBack();
         }
 

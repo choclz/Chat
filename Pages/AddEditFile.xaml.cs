@@ -36,13 +36,12 @@ namespace ClientChat.Pages
 
         private void AddBtn_Click(object sender, RoutedEventArgs e)
         {
-            int mesId;
-            int a;
             if (message.id == 0)
             {
                 if (file == null) return;
-                if (Connector.AddFile(file, FileName.Content.ToString(), out a) == -1) { MessageBox.Show("Ошибка создания файла");return; }
-                if (Connector.SendMessage(id, UserData.UserLogin, Comment.Text + "\n*Вложенный файл", out Error, out mesId, a) == -1)
+                if (Connector.AddFile(file, FileName.Content.ToString(), out int a) == -1) { MessageBox.Show("Ошибка создания файла"); return; }
+
+                if (Connector.SendMessage(id, UserData.UserLogin, Comment.Text + "\n*Вложенный файл", out Error, out _, a) == -1)
                 {
                     MessageBox.Show(Error);
                     return;

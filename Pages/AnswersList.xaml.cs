@@ -36,10 +36,11 @@ namespace ClientChat.Pages
             {
                 try
                 {
-                    Connector._context.UserTask.RemoveRange(FilesForRemoving);
-                    Connector._context.SaveChanges();
-                    MessageBox.Show("Данные удалены!");
-                    var files = Connector._context.UserTask.Where(p => p.TaskId == taskId && p.FileId != null).ToList();
+                    Connector.RemoveUserTasks(FilesForRemoving);
+                    Connector.Save(out string Errors);
+                    MessageBox.Show(Errors);
+
+                    var files = Connector.GetTaskFiles(taskId);
                     Files.ItemsSource = files;
                 }
                 catch (Exception ex)
@@ -78,7 +79,7 @@ namespace ClientChat.Pages
                         MessageBox.Show(Error);
                         return;
                     }
-                    var files = Connector._context.UserTask.Where(p => p.TaskId == taskId && p.FileId != null).ToList();
+                    var files = Connector.GetTaskFiles(taskId);
                     Files.ItemsSource = files;
                 }
             }
@@ -101,7 +102,7 @@ namespace ClientChat.Pages
             Connector.SendMessage(tsk.Tasks.Requests.RequestFrom, UserData.UserLogin, $"{tsk.Users.nickname}, задача: {tsk.Tasks.TaskName} возвращена с комментарием - {tsk.Comment}.", out Error, out taskId);
             Connector.Save(out Error);
             MessageBox.Show(Error);
-            var files = Connector._context.UserTask.Where(p => p.TaskId == taskId && p.FileId != null).ToList();
+            var files = Connector.GetTaskFiles(taskId);
             Files.ItemsSource = files;
         }
 

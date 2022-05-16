@@ -28,7 +28,7 @@ namespace ClientChat.Pages
         {
             InitializeComponent();
             AllUsers = Connector.GetUsers(out Errors);
-            Users user = AllUsers.Where(p => p.id == UserData.UserId).First();
+            Users user = Connector.GetUser(UserData.UserLogin);
             AllUsers.Remove(user);
             if (Errors != null)
             {

@@ -24,7 +24,6 @@ namespace ClientChat.Pages
     {
         static CancellationTokenSource source = new CancellationTokenSource();
         SoundPlayer sp = new SoundPlayer();
-        static CancellationToken token = source.Token;
         static List<Message> messages = new List<Message>();
         Chats _currentChat;
         int chatID;
@@ -66,7 +65,6 @@ namespace ClientChat.Pages
         {
             int id = -1;
             int t = Chat_id.Items.Count;
-            UserData.UserLogin = UserData.UserLogin;
             if (Connector.SendMessage(_currentChat.id, UserData.UserLogin, NewMessage.Text, out Error, out id) == -1) { MessageBox.Show(Error); return; }
             NewMessage.Clear();
             if (t != 0) Chat_id.ScrollIntoView(Chat_id.Items[t - 1]);
@@ -79,7 +77,7 @@ namespace ClientChat.Pages
 
         private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if ((bool)e.NewValue == true)
+            if ((bool)e.NewValue)
             {
                 messages.Clear();
                 Chat_id.Items.Refresh();
