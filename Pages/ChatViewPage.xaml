@@ -5,38 +5,47 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ClientChat.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="ChatViewPage">
+      Title="ChatViewPage" IsVisibleChanged="Page_IsVisibleChanged">
 
-    <Grid>
+    <Grid MinHeight="500" MinWidth="900">
         <Grid.RowDefinitions>
-            <RowDefinition Height="33*"/>
-            <RowDefinition Height="376*"/>
-            <RowDefinition Height="41*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <ListView Name="Chat_id" Grid.Column="1" Grid.RowSpan="3">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <ListView Name="Chat_id" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="120"></ColumnDefinition>
+                            <ColumnDefinition Width="80"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"></RowDefinition>
                             <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Image Width="50" Grid.RowSpan="2" Stretch="UniformToFill" >
-                            <Image.Source>
-                                <Binding Path="Users.avatar">
-                                    <Binding.TargetNullValue>
-                                        <Image Source="/Resources/NullAvatar.jpg" />
-                                    </Binding.TargetNullValue>
-                                </Binding>
-                            </Image.Source>
-                        </Image>
-                        <TextBlock Grid.Column="1" Name="messageSender" Text="{Binding Author}"></TextBlock>
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Text}"></TextBlock>
+                        <StackPanel  Margin="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Ellipse Width="40" Height="40">
+                                <Ellipse.Fill>
+                                    <ImageBrush>
+                                        <ImageBrush.ImageSource>
+                                            <Binding Path="avatar">
+                                                <Binding.TargetNullValue>
+                                                    <ImageSource>/Resources/NullAvatar.jpg</ImageSource>
+                                                </Binding.TargetNullValue>
+                                            </Binding>
+                                        </ImageBrush.ImageSource>
+                                    </ImageBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                        </StackPanel>
+                        <TextBlock Width="auto" Grid.Column="1" Name="messageSender" Text="{Binding Author}"/>
+                        <TextBlock  HorizontalAlignment="Left" TextWrapping="Wrap" Grid.Row="1" Grid.Column="1" Text="{Binding Text}"></TextBlock>
+                        <TextBlock TextAlignment="Right" Grid.Column="1" FontSize="12" FontWeight="Bold" Text="{Binding date, StringFormat=dd.MM.yyyy HH:mm}"/>
                     </Grid>
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding IsAuthor}" Value="true">
@@ -46,9 +55,23 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
-            <TextBox Name="NewMessage" Width="500"></TextBox>
-            <Button x:Name="SendBtn" Click="SendBtn_Click" Content="Send" Width="100"></Button>
-        </StackPanel>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Name="NewMessage" Padding="10" Grid.Column="0" TextWrapping="Wrap"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button IsDefault="True" x:Name="SendBtn" Click="SendBtn_Click" BorderThickness="0" Background="Transparent">
+                    <Image Source="/Resources/SendBtn.png"/>
+                </Button>
+                <Button x:Name="NewTaskBtn" Click="NewTaskBtn_Click" Background="Transparent" BorderThickness="0">
+                    <Image Source="/Resources/TasksBtn.png"/>
+                </Button>
+                <Button x:Name="Files" Click="Files_Click" Background="Transparent" BorderThickness="0">
+                    <Image Source="/Resources/FilesBtn.png"/>
+                </Button>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>

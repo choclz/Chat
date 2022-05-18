@@ -17,14 +17,13 @@ namespace ClientChat
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public TaskStatus()
         {
-            this.Tasks = new HashSet<Tasks>();
+            this.UserTask = new HashSet<UserTask>();
         }
     
         public int id { get; set; }
         public string name { get; set; }
-        public string comment { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tasks> Tasks { get; set; }
+        public virtual ICollection<UserTask> UserTask { get; set; }
     }
 }

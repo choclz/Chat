@@ -23,7 +23,7 @@ namespace ClientChat
         public CreateNewUser()
         {
             InitializeComponent();
-            Roles.ItemsSource = Connector._context.Roles.Where(p => p.id < 4 && p.id > 1).ToList();
+            Roles.ItemsSource = Connector.GetRoles().Where(p => p.id < 4 && p.id > 1).ToList();
             Roles.SelectedIndex = 0;
         }
 

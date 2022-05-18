@@ -4,15 +4,20 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ClientChat"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      mc:Ignorable="d"  
       Title="Login">
-
-    <Grid>
-        <TextBox x:Name="userLogin" Text="kiki" Width="200"  Height="30" Margin="296,167,296,222"/>
-        <TextBox x:Name="userPassword" Text="123check!" Width="200" Height="30" Margin="296,202,296,187"/>
-        <Button x:Name="AuthUser" Content="Авторизация" Margin="0,353,0,48" Click="AuthUser_Click"/>
-        <Button x:Name="CreateUser" Content="Еще не зарегистрированы?" Margin="0,402,0,0" Click="CreateUser_Click"/>
-        <Label Content="Авторизация в приложении" Margin="311,125,314,268" RenderTransformOrigin="0.085,0.795" Width="167" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+    
+    <Grid MinHeight="400" MinWidth="400">
+        <StackPanel HorizontalAlignment="Center" MaxHeight="400">
+            <Label Content="Авторизация в приложении" Margin="0,100,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <StackPanel Margin="10,0,10,0">
+                <Label Content="Логин пользователя:" Padding="0,0,0,3"/>
+                <TextBox MaxLength="50" x:Name="userLogin" Text="tikhonov_"/>
+                <Label Content="Пароль пользователя:" Padding="0,3,0,3"/>
+                <PasswordBox x:Name="userPassword"/>
+                <Button Margin="0,10" x:Name="AuthUser" Content="Авторизация"  Click="AuthUser_Click" IsDefault="True"/>
+                <Button  x:Name="CreateUser" Content="Регистрация" Click="CreateUser_Click"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Page>

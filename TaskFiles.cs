@@ -14,10 +14,17 @@ namespace ClientChat
     
     public partial class TaskFiles
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TaskFiles()
+        {
+            this.UserTask = new HashSet<UserTask>();
+        }
+    
         public int id { get; set; }
         public byte[] File { get; set; }
-        public int TaskId { get; set; }
+        public string Name { get; set; }
     
-        public virtual Tasks Tasks { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserTask> UserTask { get; set; }
     }
 }

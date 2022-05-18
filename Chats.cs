@@ -26,7 +26,15 @@ namespace ClientChat
         public int admin { get; set; }
         public string name { get; set; }
         public bool type { get; set; }
-    
+        public string TextType
+        {
+            get
+            {
+                return !type ? "Личный чат" : "Групповая беседа";
+            }
+        }
+
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Messages> Messages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

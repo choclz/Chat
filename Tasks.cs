@@ -17,23 +17,26 @@ namespace ClientChat
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Tasks()
         {
-            this.TaskFiles = new HashSet<TaskFiles>();
+            this.UserTask = new HashSet<UserTask>();
         }
     
         public int id { get; set; }
         public int ReqId { get; set; }
         public string TaskName { get; set; }
-        public byte[] Description { get; set; }
-        public int status { get; set; }
-        public int executor { get; set; }
+        public string Description { get; set; }
         public System.DateTime StartTime { get; set; }
         public Nullable<System.DateTime> EndTime { get; set; }
         public bool NeedFile { get; set; }
+        public string FileNeed
+        {
+            get
+            {
+                return NeedFile ? "Да" : "Нет";
+            }
+        }
     
         public virtual Requests Requests { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TaskFiles> TaskFiles { get; set; }
-        public virtual TaskStatus TaskStatus { get; set; }
-        public virtual Users Users { get; set; }
+        public virtual ICollection<UserTask> UserTask { get; set; }
     }
 }

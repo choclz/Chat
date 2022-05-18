@@ -1,0 +1,67 @@
+﻿<Page x:Class="ClientChat.Pages.AddNewChat"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ClientChat.Pages"
+      mc:Ignorable="d" 
+      Title="AddNewChat">
+    <Grid MinHeight="500" MinWidth="900" Background="Wheat">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="AUTO"/>
+            <RowDefinition Height="AUTO"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.7*"/>
+            <ColumnDefinition Width="4.6*"/>
+        </Grid.ColumnDefinitions>
+        <Label Content="Название беседы"/>
+        <TextBox MaxLength="50" x:Name="ChatName" Grid.Column="1"/>
+        <Label Grid.Row="1" Content="Поиск пользователя"/>
+        <TextBox Grid.Row="1" Grid.Column="1" x:Name="User" KeyDown="User_KeyDown"/>
+        <Label Content="Пользователи" Grid.Row="2"/>
+        <DataGrid Grid.Row="2" Grid.Column="1" x:Name="UsersToAddLV" IsReadOnly="True" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="*" Header="Имя" Binding="{Binding FName}"/>
+                <DataGridTextColumn Width="*" Header="фамилия" Binding="{Binding SName}"/>
+                <DataGridTextColumn Width="*" Header="Никнейм" Binding="{Binding nickname}"/>
+                <DataGridTemplateColumn Header="Добавить пользователя" Width="auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Добавить" Name="AddToList" Click="AddToList_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Профиль пользователя" Width="auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Профиль" Name="CheckProfile" Click="Check_Profile"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label Content="Добавленные пользователи" Grid.Row="3" Grid.RowSpan="2"/>
+        <DataGrid Grid.Row="3" Grid.Column="1" x:Name="UsersToDelLV" IsReadOnly="True" AutoGenerateColumns="False" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Имя" Binding="{Binding FName}"/>
+                    <DataGridTextColumn Header="фамилия" Binding="{Binding SName}"/>
+                    <DataGridTextColumn Header="Никнейм" Binding="{Binding nickname}"/>
+                    <DataGridTemplateColumn Header="Удалить пользователя" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Удалить" Name="DelFromList" Click="DelFromList_Click"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        <Button x:Name="CreateChat" Content="Создать беседу" Grid.Row="4" Grid.ColumnSpan="2" Click="CreateChat_Click"/>
+        <Button x:Name="BackBtn" Content="Назад" Grid.Row="5" Grid.ColumnSpan="2" Click="BackBtn_Click"/>
+    </Grid>
+
+</Page>

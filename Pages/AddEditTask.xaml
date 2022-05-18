@@ -1,0 +1,42 @@
+﻿<Page x:Class="ClientChat.Pages.AddEditTask"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ClientChat.Pages"
+      mc:Ignorable="d" 
+      Title="AddEditTask">
+
+    <Grid MinWidth="900">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Label Content="Название"/>
+        <TextBox MaxLength="50" Name="RequestName" Grid.Column="1" Text="{Binding TaskName}"/>
+        <Label Grid.Row="1" Content="Описание"/>
+        <TextBox MaxLength="255" Name="Desc" Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Text="{Binding Description}"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+            <StackPanel>
+                <Label Content="Дата начала исполнения"></Label>
+                <Calendar Name="StartTime" SelectedDate="{Binding StartTime}"/>
+            </StackPanel>
+            <StackPanel>
+                <Label Content="Дата завершения исполнения" Grid.Row="3"></Label>
+                <Calendar Grid.Column="1" Grid.Row="3" Name="EndTime" SelectedDate="{Binding EndTime}"/>
+            </StackPanel>
+        </StackPanel>
+        <CheckBox Content="Необходимо прикрепить результат" x:Name="FileNeeded"  Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" IsChecked="{Binding NeedFile}"></CheckBox>
+        <Button Name="AddRequest" Content="Сохранить" Grid.Row="5" Grid.ColumnSpan="2" Click="AddRequest_Click"/>
+        <Button Name="BackBtn" Content="Назад" Grid.Row="6" Grid.ColumnSpan="2" Click="BackBtn_Click"/>
+    </Grid>
+</Page>

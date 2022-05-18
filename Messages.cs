@@ -14,22 +14,15 @@ namespace ClientChat
     
     public partial class Messages
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Messages()
-        {
-            this.MessageFiles = new HashSet<MessageFiles>();
-        }
-    
         public int id { get; set; }
         public int ChatId { get; set; }
         public int from { get; set; }
         public string text { get; set; }
-        public Nullable<bool> Filles { get; set; }
+        public Nullable<int> Files { get; set; }
         public System.DateTime date { get; set; }
     
         public virtual Chats Chats { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<MessageFiles> MessageFiles { get; set; }
+        public virtual MessageFiles MessageFiles { get; set; }
         public virtual Users Users { get; set; }
     }
 }

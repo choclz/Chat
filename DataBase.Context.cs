@@ -16,6 +16,7 @@ namespace ClientChat
     public partial class MessengerEntities : DbContext
     {
         private static MessengerEntities _context;
+
         public MessengerEntities()
             : base("name=MessengerEntities")
         {
@@ -27,6 +28,7 @@ namespace ClientChat
             return _context;
         }
 
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             throw new UnintentionalCodeFirstException();
@@ -37,11 +39,14 @@ namespace ClientChat
         public virtual DbSet<MessageFiles> MessageFiles { get; set; }
         public virtual DbSet<Messages> Messages { get; set; }
         public virtual DbSet<Requests> Requests { get; set; }
+        public virtual DbSet<RequestStatus> RequestStatus { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TaskFiles> TaskFiles { get; set; }
+        public virtual DbSet<Tasks> Tasks { get; set; }
         public virtual DbSet<TaskStatus> TaskStatus { get; set; }
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<UsersChats> UsersChats { get; set; }
-        public virtual DbSet<Tasks> TasksSet { get; set; }
+        public virtual DbSet<UserTask> UserTask { get; set; }
     }
 }
