@@ -29,7 +29,7 @@
             <Label Name="FileName" Content="{Binding MessageFiles.Name}" />
         </StackPanel>
         <Label Content="Комментарий" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center"/>
-        <TextBox Name="Comment" Text="{Binding text}" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap"/>
+        <TextBox MaxLength="50" Name="Comment" Text="{Binding text}" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap"/>
         <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
             <Button x:Name="AddBtn" Content="Сохранить" Click="AddBtn_Click"/>
             <Button x:Name="BackBtn" Content="Назад" Click="BackBtn_Click"/>

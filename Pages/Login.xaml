@@ -8,11 +8,11 @@
       Title="Login">
     
     <Grid MinHeight="400" MinWidth="400">
-        <StackPanel HorizontalAlignment="Center" MaxWidth="400" MaxHeight="400">
+        <StackPanel HorizontalAlignment="Center" MaxHeight="400">
             <Label Content="Авторизация в приложении" Margin="0,100,0,0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             <StackPanel Margin="10,0,10,0">
                 <Label Content="Логин пользователя:" Padding="0,0,0,3"/>
-                <TextBox x:Name="userLogin" Text="tikhonov_"/>
+                <TextBox MaxLength="50" x:Name="userLogin" Text="tikhonov_"/>
                 <Label Content="Пароль пользователя:" Padding="0,3,0,3"/>
                 <PasswordBox x:Name="userPassword"/>
                 <Button Margin="0,10" x:Name="AuthUser" Content="Авторизация"  Click="AuthUser_Click" IsDefault="True"/>

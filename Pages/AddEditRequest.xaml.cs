@@ -1,17 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ClientChat.Pages
 {
@@ -57,15 +47,13 @@ namespace ClientChat.Pages
                 Manager.MessagePart.GoBack();
                 return;
             }
-            if ((request.status = Connector.FindRequestIdByName(ReqStatus.Text)) == -1) return;
+            if ((request.status = Connector.FindRequestStatusNameIdByName(ReqStatus.Text)) == -1) return;
             if (request.StartTime < DateTime.Now.AddDays(-1)) { MessageBox.Show("Дата начала должна быть больше текущей даты!"); return; }
             if (request.EndTime == null) { MessageBox.Show("Не задана дата окончания выполнения!"); return; }
             if (request.EndTime < request.StartTime) { MessageBox.Show("Дата окончания выполнения должна быть больше даты старта!"); return; }
             if (string.IsNullOrWhiteSpace(request.name)) { MessageBox.Show("Имя заявки не задано!"); return; }
             Connector.SendMessage(chatId, UserData.UserLogin, $"В данном диалоге обновлена заявка - \"{request.name}\"!\nУстановлен статус - \"{request.RequestStatus.name}\"", out Error, out a);
             Connector.Save(out Error); MessageBox.Show(Error);
-            Connector.SendMessage(chatId, UserData.UserLogin, $"В данном диалоге обновлена заявка - \"{request.name}\"!\nУстановлен статус - \"{request.RequestStatus.name}\"", out Error, out a);
-            Connector.Save(out Error);
             Manager.MessagePart.GoBack();
         }
 

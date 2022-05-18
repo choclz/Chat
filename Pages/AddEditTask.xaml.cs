@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ClientChat.Pages
 {
@@ -42,8 +31,9 @@ namespace ClientChat.Pages
             int a;
             if (task.id == 0)
             {
+                task.StartTime = StartTime.SelectedDate.Value;
                 if (Connector.AddTask(task, out Error) == -1) { MessageBox.Show(Error); return; }
-                if (Connector.GenerateTasks(task) == -1) { MessageBox.Show("Ошибка распределения заявок между пользователями. Попробуйте позже!"); return; }
+                if (Connector.GenerateTasks(task, UserData.UserId) == -1) { MessageBox.Show("Ошибка распределения заявок между пользователями. Попробуйте позже!"); return; }
                 if (Connector.SendMessage(task.Requests.RequestFrom, UserData.UserLogin, $"В данном диалоге создана новая задача! \nЗаявка:{task.Requests.name}\nЗадача:{task.TaskName}", out Err, out a) == -1)
                 {
                     MessageBox.Show(Error);

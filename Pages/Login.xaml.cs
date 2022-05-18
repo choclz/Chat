@@ -1,10 +1,9 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace ClientChat
 {
- 
+
     public partial class Login : Page
     {
         public Login()

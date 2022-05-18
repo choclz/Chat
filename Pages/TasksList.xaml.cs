@@ -1,19 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Data;
-using System.Data.Entity;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ClientChat.Pages
 {
@@ -30,7 +20,7 @@ namespace ClientChat.Pages
         {
             InitializeComponent();
             this.ReqId = ReqId;
-            admin = Connector.RequestAdmin(ReqId);
+            admin = Connector.RequestAdmin(ReqId, UserData.UserId);
         }
 
         private void AddEditTask_Click(object sender, RoutedEventArgs e)
@@ -73,6 +63,8 @@ namespace ClientChat.Pages
                 Connector.RemoveTasks(TaskForRemoving);
                 Connector.Save(out string Error);
                 MessageBox.Show(Error);
+                Tasks = Connector.GetTasks(ReqId);
+                TaskDG.ItemsSource = Tasks;
             }
         }
 

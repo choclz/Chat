@@ -22,13 +22,13 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Text="Логин пользователя"/>
-        <TextBox Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" Name="UserLogin"/>
+        <TextBox MaxLength="50" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" Name="UserLogin"/>
         <TextBlock Grid.Row="1" Text="Имя пользователя"/>
-        <TextBox Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" Name="FName"/>
+        <TextBox MaxLength="30" Grid.Row="1" Grid.Column="1" TextWrapping="Wrap" Name="FName"/>
         <TextBlock Grid.Row="2" Text="Фамилия пользователя"/>
-        <TextBox Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" Name="SName"/>
+        <TextBox MaxLength="30" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" Name="SName"/>
         <TextBlock Grid.Row="3" Text="Отчество пользователя"/>
-        <TextBox Grid.Row="3" Grid.Column="1" TextWrapping="Wrap" Name="ThName"/>
+        <TextBox MaxLength="30" Grid.Row="3" Grid.Column="1" TextWrapping="Wrap" Name="ThName"/>
         <TextBlock Grid.Row="4" Text="Статус пользователя"/>
         <ComboBox Grid.Row="4" Grid.Column="1" Name="Roles" DisplayMemberPath="name"/>
         <TextBlock Grid.Row="5" Text="Пароль пользователя"/>

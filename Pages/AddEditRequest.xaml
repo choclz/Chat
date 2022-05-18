@@ -21,7 +21,7 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Label Content="Название"/>
-        <TextBox Name="RequestName" Grid.Column="1" Text="{Binding name}"/>
+        <TextBox MaxLength="50" Name="RequestName" Grid.Column="1" Text="{Binding name}"/>
         <Label Content="Статус заявки" Grid.Row="1"/>
         <ComboBox Name="ReqStatus" Grid.Row="1" Grid.Column="1" DisplayMemberPath="name"></ComboBox>
         <Calendar Grid.Column="1" Grid.Row="2" Name="StartTime" SelectedDate="{Binding StartTime}"/>

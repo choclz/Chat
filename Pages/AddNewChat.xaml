@@ -20,7 +20,7 @@
             <ColumnDefinition Width="4.6*"/>
         </Grid.ColumnDefinitions>
         <Label Content="Название беседы"/>
-        <TextBox x:Name="ChatName" Grid.Column="1"/>
+        <TextBox MaxLength="50" x:Name="ChatName" Grid.Column="1"/>
         <Label Grid.Row="1" Content="Поиск пользователя"/>
         <TextBox Grid.Row="1" Grid.Column="1" x:Name="User" KeyDown="User_KeyDown"/>
         <Label Content="Пользователи" Grid.Row="2"/>
