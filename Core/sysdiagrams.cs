@@ -7,22 +7,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ClientChat
+namespace ClientChat.Core
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Messages
+    public partial class sysdiagrams
     {
-        public int id { get; set; }
-        public int ChatId { get; set; }
-        public int from { get; set; }
-        public string text { get; set; }
-        public Nullable<int> Files { get; set; }
-        public System.DateTime date { get; set; }
-    
-        public virtual Chats Chats { get; set; }
-        public virtual MessageFiles MessageFiles { get; set; }
-        public virtual Users Users { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

@@ -7,23 +7,31 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ClientChat
+namespace ClientChat.Core
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Roles
+    public partial class Chats
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Roles()
+        public Chats()
         {
-            this.Users = new HashSet<Users>();
+            this.Messages = new HashSet<Messages>();
+            this.Requests = new HashSet<Requests>();
+            this.UsersChats = new HashSet<UsersChats>();
         }
     
         public int id { get; set; }
+        public int admin { get; set; }
         public string name { get; set; }
+        public bool type { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Users> Users { get; set; }
+        public virtual ICollection<Messages> Messages { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Requests> Requests { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UsersChats> UsersChats { get; set; }
     }
 }

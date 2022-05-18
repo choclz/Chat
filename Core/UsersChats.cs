@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ClientChat
+namespace ClientChat.Core
 {
     using System;
     using System.Collections.Generic;

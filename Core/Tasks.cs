@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ClientChat
+namespace ClientChat.Core
 {
     using System;
     using System.Collections.Generic;
@@ -27,13 +27,6 @@ namespace ClientChat
         public System.DateTime StartTime { get; set; }
         public Nullable<System.DateTime> EndTime { get; set; }
         public bool NeedFile { get; set; }
-        public string FileNeed
-        {
-            get
-            {
-                return NeedFile ? "Да" : "Нет";
-            }
-        }
     
         public virtual Requests Requests { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
