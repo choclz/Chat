@@ -66,39 +66,39 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Core\Auth.cs">
+    <Compile Include="Auth.cs">
       <DependentUpon>DataBase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Classes\AuthServer.cs" />
-    <Compile Include="Core\Chats.cs">
+    <Compile Include="AuthServer.cs" />
+    <Compile Include="Chats.cs">
       <DependentUpon>DataBase.tt</DependentUpon>
     </Compile>
     <Compile Include="Classes\Connector.cs" />
     <Compile Include="Classes\Message.cs" />
     <Compile Include="Core\ObservableObject.cs" />
     <Compile Include="Core\RelayCommand.cs" />
-    <Compile Include="Pages\CreateNewUser.xaml.cs">
+    <Compile Include="CreateNewUser.xaml.cs">
       <DependentUpon>CreateNewUser.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\DataBase.Context.cs">
+    <Compile Include="DataBase.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DataBase.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Core\DataBase.cs">
+    <Compile Include="DataBase.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DataBase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Core\DataBase.Designer.cs">
+    <Compile Include="DataBase.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DataBase.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Core\MessageFiles.cs">
+    <Compile Include="MessageFiles.cs">
       <DependentUpon>DataBase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Core\Messages.cs">
+    <Compile Include="Messages.cs">
       <DependentUpon>DataBase.tt</DependentUpon>
     </Compile>
     <Compile Include="Pages\AddEditFile.xaml.cs">
@@ -125,7 +125,7 @@
     <Compile Include="Pages\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\Manager.cs" />
+    <Compile Include="Manager.cs" />
     <Compile Include="Pages\MessagePage.xaml.cs">
       <DependentUpon>MessagePage.xaml</DependentUpon>
     </Compile>
@@ -145,38 +145,38 @@
     <Compile Include="Pages\VoidPage.xaml.cs">
       <DependentUpon>VoidPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\Requests.cs">
+    <Compile Include="Requests.cs">
       <DependentUpon>DataBase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Core\RequestStatus.cs">
+    <Compile Include="RequestStatus.cs">
       <DependentUpon>DataBase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Core\Roles.cs">
+    <Compile Include="Roles.cs">
       <DependentUpon>DataBase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Core\sysdiagrams.cs">
+    <Compile Include="sysdiagrams.cs">
       <DependentUpon>DataBase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Core\TaskFiles.cs">
+    <Compile Include="TaskFiles.cs">
       <DependentUpon>DataBase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Core\Tasks.cs">
+    <Compile Include="Tasks.cs">
       <DependentUpon>DataBase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Core\TaskStatus.cs">
+    <Compile Include="TaskStatus.cs">
       <DependentUpon>DataBase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Classes\UserData.cs" />
-    <Compile Include="Core\Users.cs">
+    <Compile Include="UserData.cs" />
+    <Compile Include="Users.cs">
       <DependentUpon>DataBase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Core\UsersChats.cs">
+    <Compile Include="UsersChats.cs">
       <DependentUpon>DataBase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Core\UserTask.cs">
+    <Compile Include="UserTask.cs">
       <DependentUpon>DataBase.tt</DependentUpon>
     </Compile>
-    <Page Include="Pages\CreateNewUser.xaml">
+    <Page Include="CreateNewUser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -212,7 +212,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\MainWindow.xaml">
+    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -220,7 +220,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Pages\MainWindow.xaml.cs">
+    <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -252,7 +252,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\UserChatCard.xaml">
+    <Page Include="UserChatCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -276,11 +276,11 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
-    <EntityDeploy Include="Core\DataBase.edmx">
+    <EntityDeploy Include="DataBase.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DataBase.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Core\DataBase.edmx.diagram">
+    <None Include="DataBase.edmx.diagram">
       <DependentUpon>DataBase.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
@@ -307,12 +307,12 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Core\DataBase.Context.tt">
+    <Content Include="DataBase.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>DataBase.edmx</DependentUpon>
       <LastGenOutput>DataBase.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Core\DataBase.tt">
+    <Content Include="DataBase.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>DataBase.edmx</DependentUpon>
       <LastGenOutput>DataBase.cs</LastGenOutput>
@@ -333,6 +333,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <None Include="Resources\snapchat_meloboom.wav" />
+    <None Include="snapchat-meloboom.wav" />
     <None Include="Resources\snapchat meloboom.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

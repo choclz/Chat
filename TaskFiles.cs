@@ -7,22 +7,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ClientChat.Core
+namespace ClientChat
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Messages
+    public partial class TaskFiles
     {
-        public int id { get; set; }
-        public int ChatId { get; set; }
-        public int from { get; set; }
-        public string text { get; set; }
-        public Nullable<int> Files { get; set; }
-        public System.DateTime date { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public TaskFiles()
+        {
+            this.UserTask = new HashSet<UserTask>();
+        }
     
-        public virtual Chats Chats { get; set; }
-        public virtual MessageFiles MessageFiles { get; set; }
-        public virtual Users Users { get; set; }
+        public int id { get; set; }
+        public byte[] File { get; set; }
+        public string Name { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserTask> UserTask { get; set; }
     }
 }

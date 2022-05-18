@@ -7,31 +7,39 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ClientChat.Core
+namespace ClientChat
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Requests
+    public partial class Chats
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Requests()
+        public Chats()
         {
-            this.Tasks = new HashSet<Tasks>();
+            this.Messages = new HashSet<Messages>();
+            this.Requests = new HashSet<Requests>();
+            this.UsersChats = new HashSet<UsersChats>();
         }
     
         public int id { get; set; }
+        public int admin { get; set; }
         public string name { get; set; }
-        public int status { get; set; }
-        public int customer { get; set; }
-        public int RequestFrom { get; set; }
-        public System.DateTime StartTime { get; set; }
-        public Nullable<System.DateTime> EndTime { get; set; }
-    
-        public virtual Chats Chats { get; set; }
-        public virtual RequestStatus RequestStatus { get; set; }
-        public virtual Users Users { get; set; }
+        public bool type { get; set; }
+        public string TextType
+        {
+            get
+            {
+                return !type ? "Личный чат" : "Групповая беседа";
+            }
+        }
+
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tasks> Tasks { get; set; }
+        public virtual ICollection<Messages> Messages { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Requests> Requests { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UsersChats> UsersChats { get; set; }
     }
 }

@@ -7,23 +7,17 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ClientChat.Core
+namespace ClientChat
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class UserTask
+    public partial class sysdiagrams
     {
-        public int id { get; set; }
-        public int UserId { get; set; }
-        public int TaskId { get; set; }
-        public int status { get; set; }
-        public Nullable<int> FileId { get; set; }
-        public string Comment { get; set; }
-    
-        public virtual TaskFiles TaskFiles { get; set; }
-        public virtual Tasks Tasks { get; set; }
-        public virtual TaskStatus TaskStatus { get; set; }
-        public virtual Users Users { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

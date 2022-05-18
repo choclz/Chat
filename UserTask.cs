@@ -7,23 +7,23 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ClientChat.Core
+namespace ClientChat
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class RequestStatus
+    public partial class UserTask
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public RequestStatus()
-        {
-            this.Requests = new HashSet<Requests>();
-        }
-    
         public int id { get; set; }
-        public string name { get; set; }
+        public int UserId { get; set; }
+        public int TaskId { get; set; }
+        public int status { get; set; }
+        public Nullable<int> FileId { get; set; }
+        public string Comment { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Requests> Requests { get; set; }
+        public virtual TaskFiles TaskFiles { get; set; }
+        public virtual Tasks Tasks { get; set; }
+        public virtual TaskStatus TaskStatus { get; set; }
+        public virtual Users Users { get; set; }
     }
 }
