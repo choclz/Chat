@@ -69,7 +69,7 @@
     <Compile Include="Auth.cs">
       <DependentUpon>DataBase.tt</DependentUpon>
     </Compile>
-    <Compile Include="AuthServer.cs" />
+    <Compile Include="Classes\AuthServer.cs" />
     <Compile Include="Chats.cs">
       <DependentUpon>DataBase.tt</DependentUpon>
     </Compile>
@@ -77,7 +77,7 @@
     <Compile Include="Classes\Message.cs" />
     <Compile Include="Core\ObservableObject.cs" />
     <Compile Include="Core\RelayCommand.cs" />
-    <Compile Include="CreateNewUser.xaml.cs">
+    <Compile Include="Pages\CreateNewUser.xaml.cs">
       <DependentUpon>CreateNewUser.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataBase.Context.cs">
@@ -125,7 +125,7 @@
     <Compile Include="Pages\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Manager.cs" />
+    <Compile Include="Classes\Manager.cs" />
     <Compile Include="Pages\MessagePage.xaml.cs">
       <DependentUpon>MessagePage.xaml</DependentUpon>
     </Compile>
@@ -166,7 +166,7 @@
     <Compile Include="TaskStatus.cs">
       <DependentUpon>DataBase.tt</DependentUpon>
     </Compile>
-    <Compile Include="UserData.cs" />
+    <Compile Include="Classes\UserData.cs" />
     <Compile Include="Users.cs">
       <DependentUpon>DataBase.tt</DependentUpon>
     </Compile>
@@ -176,7 +176,7 @@
     <Compile Include="UserTask.cs">
       <DependentUpon>DataBase.tt</DependentUpon>
     </Compile>
-    <Page Include="CreateNewUser.xaml">
+    <Page Include="Pages\CreateNewUser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -212,7 +212,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Pages\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -220,7 +220,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Pages\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -252,7 +252,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserChatCard.xaml">
+    <Page Include="Pages\UserChatCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -333,7 +333,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <None Include="Resources\snapchat_meloboom.wav" />
-    <None Include="snapchat-meloboom.wav" />
     <None Include="Resources\snapchat meloboom.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
