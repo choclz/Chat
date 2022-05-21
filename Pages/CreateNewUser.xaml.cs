@@ -34,6 +34,7 @@ namespace ClientChat
                 MessageBox.Show("Одно из полей не задано, проверьте правильность введённых данных!", "Ошибка регистрации");
                 return;
             }
+            CreateUSer.IsEnabled = true;
             if (Connector.IsUserExist(UserLogin.Text))
             {
                 MessageBox.Show("Пользователь с таким логином уже существует, пожалуйста, проверьте входные данные!");
@@ -47,6 +48,11 @@ namespace ClientChat
             }
             MessageBox.Show("Пользователь успешно создан!", "Успешная регистрация в системе");
             Manager.MainFrame.Navigate(new Login());
+        }
+
+        private void BackBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.GoBack();
         }
     }
 }

@@ -48,7 +48,7 @@ namespace ClientChat.Pages
         {
             using (System.Windows.Forms.OpenFileDialog OPF = new System.Windows.Forms.OpenFileDialog())
             {
-                OPF.Filter = "Документы .doc|*.doc|Документы .docx|*.docx|Файлы pdf|*.pdf";
+                OPF.Filter = "Документы .docx|*.docx|Документы .doc|*.doc|Файлы pdf|*.pdf";
                 if (OPF.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                 {
                     using (FileStream fs = new FileStream(OPF.FileName, FileMode.Open))

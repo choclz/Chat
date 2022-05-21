@@ -317,6 +317,9 @@
       <DependentUpon>DataBase.edmx</DependentUpon>
       <LastGenOutput>DataBase.cs</LastGenOutput>
     </Content>
+    <None Include="Resources\zvuk.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <Resource Include="Resources\backBtn.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
