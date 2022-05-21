@@ -20,6 +20,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Text="Логин пользователя"/>
         <TextBox MaxLength="50" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap" Name="UserLogin"/>
@@ -34,5 +35,6 @@
         <TextBlock Grid.Row="5" Text="Пароль пользователя"/>
         <TextBox Grid.Row="5" Grid.Column="1" TextWrapping="Wrap" Name="UserPassword"/>
         <Button Grid.Row="6" Grid.ColumnSpan="2" x:Name="CreateUSer" Content="Регистрация" Click="CreateUSer_Click"/>
+        <Button Grid.Row="7" Grid.ColumnSpan="2" x:Name="BackBtn" Content="Назад" Click="BackBtn_Click"/>
     </Grid>
 </Page>

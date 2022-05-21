@@ -10,5 +10,6 @@ namespace ClientChat
     {
         public static int UserId { get; set; }
         public static string UserLogin { get; set; }
+        public static bool ServerAvailable { get; set; } = false;
     }
 }

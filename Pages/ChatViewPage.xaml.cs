@@ -13,7 +13,6 @@ namespace ClientChat.Pages
     /// </summary>
     public partial class ChatViewPage : Page
     {
-        static CancellationTokenSource source = new CancellationTokenSource();
         SoundPlayer sp = new SoundPlayer();
         static List<Message> messages = new List<Message>();
         Chats _currentChat;
@@ -24,7 +23,7 @@ namespace ClientChat.Pages
         public ChatViewPage(Chats chat)
         {
             InitializeComponent();
-            sp.Stream = Properties.Resources.snapchat_meloboom;
+            sp.Stream = Properties.Resources.zvuk;
             _currentChat = chat;
         }
 
@@ -73,7 +72,7 @@ namespace ClientChat.Pages
                 messages.Clear();
                 Chat_id.Items.Refresh();
                 chatID = _currentChat.id;
-                messages = Connector.GetMessagesFromChat(_currentChat.id, UserData.UserId);
+                messages = Connector.GetMessagesFromChat(_currentChat.id, UserData.UserId, 0);
                 Chat_id.ItemsSource = messages;
                 _messages = Chat_id;
                 timer = new Timer(UpdateMessages, null, 0, 1000);

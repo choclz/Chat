@@ -22,6 +22,11 @@ namespace ClientChat
         {
         }
 
+        public MessengerEntities(string sConnectionString)
+           : base(sConnectionString)
+        {
+        }
+
         public static MessengerEntities GetContext()
         {
             if (_context == null) _context = new MessengerEntities();

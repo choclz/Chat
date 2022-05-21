@@ -6,6 +6,8 @@ using System.Text;
 using System.Data;
 using System.Data.Entity;
 using System.Text.RegularExpressions;
+using System.Data.SqlClient;
+using System.Data.Entity.Core.EntityClient;
 
 namespace ClientChat
 {
@@ -15,6 +17,32 @@ namespace ClientChat
         /// Контекст для обращения к базе данных
         /// </summary>
         static public MessengerEntities _context = MessengerEntities.GetContext();
+
+        static public int CheckServer()
+        {
+            if (_context.Database.Exists()) return 1;
+            return -1;
+        }
+        static public int ChangeServer(string Conn)
+        {
+            string providerName = "System.Data.SqlClient";
+            string serverName = Conn;
+            string databaseName = "Messenger";
+            SqlConnectionStringBuilder sqlBuilder = new SqlConnectionStringBuilder();
+            sqlBuilder.DataSource = serverName;
+            sqlBuilder.InitialCatalog = databaseName;
+            sqlBuilder.IntegratedSecurity = true;
+            string providerString = sqlBuilder.ToString();
+            EntityConnectionStringBuilder entityBuilder = new EntityConnectionStringBuilder();
+            entityBuilder.Provider = providerName;
+            entityBuilder.ProviderConnectionString = providerString;
+            entityBuilder.Metadata = "res://*/DataBase.csdl|res://*/DataBase.ssdl|res://*/DataBase.msl";
+            _context = new MessengerEntities(entityBuilder.ConnectionString);
+            _context.Database.CommandTimeout = 15;
+            if (CheckServer() != 1) return -1;
+            return 1;
+        }
+        
         /// <summary>
         /// Метод шифрации пароля с использованием SHA256
         /// </summary>

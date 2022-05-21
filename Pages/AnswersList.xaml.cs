@@ -43,15 +43,22 @@ namespace ClientChat.Pages
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            System.Windows.Forms.FolderBrowserDialog folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
-            var path = ((sender as Button).DataContext as UserTask).TaskFiles;
-            if (folderBrowser.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            try
             {
-                File.WriteAllBytes(System.IO.Path.Combine(folderBrowser.SelectedPath, path.Name), path.File);
-                MessageBox.Show("Файл сохранен!");
-                return;
+                System.Windows.Forms.FolderBrowserDialog folderBrowser = new System.Windows.Forms.FolderBrowserDialog();
+                var path = ((sender as Button).DataContext as UserTask).TaskFiles;
+                if (folderBrowser.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    File.WriteAllBytes(System.IO.Path.Combine(folderBrowser.SelectedPath, path.Name), path.File);
+                    MessageBox.Show("Файл сохранен!");
+                    return;
+                }
+                MessageBox.Show("Операция отменена!");
             }
-            MessageBox.Show("Операция отменена!");
+            catch
+            {
+                MessageBox.Show("Внутренняя ошибка - Файл недоступен. Попробуйте перезапустить приложение и попробовать снова!\nЕсли ошибка повторится - напишите администратору: dev@choclz.ru");
+            }
         }
 
         private void BackBtn_Click(object sender, RoutedEventArgs e)
