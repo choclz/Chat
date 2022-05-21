@@ -52,6 +52,7 @@ namespace ClientChat.Pages
             if (request.EndTime == null) { MessageBox.Show("Не задана дата окончания выполнения!"); return; }
             if (request.EndTime < request.StartTime) { MessageBox.Show("Дата окончания выполнения должна быть больше даты старта!"); return; }
             if (string.IsNullOrWhiteSpace(request.name)) { MessageBox.Show("Имя заявки не задано!"); return; }
+            if (Connector.Save(out Error) == -1) { MessageBox.Show(Error); return; }
             Connector.SendMessage(chatId, UserData.UserLogin, $"В данном диалоге обновлена заявка - \"{request.name}\"!\nУстановлен статус - \"{request.RequestStatus.name}\"", out Error, out a);
             Connector.Save(out Error); MessageBox.Show(Error);
             Manager.MessagePart.GoBack();

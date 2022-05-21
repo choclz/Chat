@@ -54,6 +54,7 @@ namespace ClientChat.Pages
 
         private void DelBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (TasksFromYou.IsChecked == false) return;
             var RequestsForRemoving = RequestDG.SelectedItems.Cast<Requests>().ToList();
             if (MessageBox.Show($"Вы точно хотите удалить следующие {RequestsForRemoving.Count()} элементов?", "Внимание", MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK)
             {
