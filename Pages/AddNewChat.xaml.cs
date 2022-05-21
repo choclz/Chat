@@ -35,7 +35,6 @@ namespace ClientChat.Pages
             users.Add((sender as Button).DataContext as Users);
             AllUsers.Remove((sender as Button).DataContext as Users);
             Selected = AllUsers;
-            ChatName.Clear();
             UsersToAddLV.ItemsSource = Selected;
             UsersToDelLV.Items.Refresh();
             UsersToAddLV.Items.Refresh();
