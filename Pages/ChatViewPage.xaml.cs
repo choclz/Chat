@@ -23,7 +23,7 @@ namespace ClientChat.Pages
         public ChatViewPage(Chats chat)
         {
             InitializeComponent();
-            sp.Stream = Properties.Resources.zvuk;
+            sp.Stream = Properties.Resources.snapchat_meloboom;
             _currentChat = chat;
         }
 
