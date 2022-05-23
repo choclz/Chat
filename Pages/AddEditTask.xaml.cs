@@ -43,7 +43,6 @@ namespace ClientChat.Pages
                 Manager.MessagePart.GoBack();
                 return;
             }
-            if (task.StartTime < DateTime.Now.AddDays(-1)) { MessageBox.Show("Дата начала должна быть больше текущей даты!"); return; }
             if (task.StartTime < task.Requests.StartTime) { MessageBox.Show("Дата начала выполнения задачи не может быть меньше даты начала выполнения заявки!"); return; }
             if (task.EndTime == null) { MessageBox.Show("Не задана дата окончания выполнения!"); return; }
             if (task.EndTime > task.Requests.EndTime) { MessageBox.Show("Дата окончания выполнения задачи не может быть больше даты окончания заявки!"); return; }
