@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.IO;
+using System;
 
 namespace ClientChat.Pages
 {
@@ -75,19 +76,27 @@ namespace ClientChat.Pages
 
         private void ChooseFile_Click(object sender, RoutedEventArgs e)
         {
-            using (System.Windows.Forms.OpenFileDialog OPF = new System.Windows.Forms.OpenFileDialog())
+            try
             {
-                OPF.Filter = "Документы .docx|*.docx|Старые документы ворд|*.doc|Файлы pdf|*.pdf";
-                if (OPF.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                using (System.Windows.Forms.OpenFileDialog OPF = new System.Windows.Forms.OpenFileDialog())
                 {
-                    using (FileStream fs = new FileStream(OPF.FileName, FileMode.Open))
+                    OPF.Filter = "Документы .docx|*.docx|Старые документы ворд|*.doc|Файлы pdf|*.pdf";
+                    if (OPF.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                     {
-                        file = new byte[fs.Length];
-                        fs.Read(file, 0, file.Length);
-                        fileAdded = true;
-                        FileName.Content = OPF.SafeFileName;
+                        using (FileStream fs = new FileStream(OPF.FileName, FileMode.Open))
+                        {
+                            file = new byte[fs.Length];
+                            fs.Read(file, 0, file.Length);
+                            fileAdded = true;
+                            FileName.Content = OPF.SafeFileName;
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка");
+                return;
             }
         }
     }
