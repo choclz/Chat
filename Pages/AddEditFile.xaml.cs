@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -46,6 +47,7 @@ namespace ClientChat.Pages
 
         private void ChooseFile_Click(object sender, RoutedEventArgs e)
         {
+            try { 
             using (System.Windows.Forms.OpenFileDialog OPF = new System.Windows.Forms.OpenFileDialog())
             {
                 OPF.Filter = "Документы .docx|*.docx|Документы .doc|*.doc|Файлы pdf|*.pdf";
@@ -58,6 +60,10 @@ namespace ClientChat.Pages
                         FileName.Content = OPF.SafeFileName;
                     }
                 }
+            }
+            } catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка");
             }
         }
     }
